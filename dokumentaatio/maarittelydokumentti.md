@@ -2,11 +2,11 @@
 
 ## Sovelluksen tarkoitus
 
-Sovelluksen avulla voidaan vertailla leveyshaun (BFS), A*- ja mahdollisesti JPS-algoritmin toimintaa, kun etsitään lyhin polku kahden painottoman verkon solmun välillä.
+Sovelluksen avulla voidaan vertailla leveyshaun (BFS), A*- ja mahdollisesti JPS-algoritmin toimintaa, kun etsitään lyhin polku kahden verkon solmun välillä.
 
 ## Algoritmit ja tietorakenteet
 
-Valitsin reitinhakuun leveyshaun, koska se sopii hyvin painottoman verkon käsittelyyn ja A*-algoritmin, koska se sopii tilanteeseen, jossa etsitään lyhin reitti juuri kahden tietyn solmun välille.
+Valitsin reitinhakuun leveyshaun, koska se sopii hyvin lyhimmän polun etsimiseen ja A*-algoritmin, koska se sopii tilanteeseen, jossa etsitään lyhin reitti juuri kahden tietyn solmun välille.
 Algoritmien toteutuksessa tullaan käyttämään tietorakenteina kekoa, jonoa ja taulukkoa.
 
 ## Syötteet
