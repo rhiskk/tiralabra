@@ -24,7 +24,8 @@ public class Bfs {
     {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
-     *
+     * Returns the shortest path from the starting point to the ending point.
+     * 
      * @param map map as a grid
      * @param start starting point
      * @param end ending point
@@ -50,8 +51,10 @@ public class Bfs {
     }
 
     /**
-     * takes the x and y coordinates of a node as parameters adds all of their
-     * valid adjecent coordinates to their respective queues marks the
+     * Processes the neighboring nodes.
+     * 
+     * Takes the x and y coordinates of a node as parameters, adds all of their
+     * valid adjecent coordinates to their respective queues, marks the
      * neighboring nodes as visited and increments the number of nodes in the
      * next layer
      *
@@ -79,7 +82,9 @@ public class Bfs {
     }
 
     /**
-     * takes the x and y coordinates of the starting point. Adds them to their
+     * Handles the search.
+     * 
+     * Takes the x and y coordinates of the starting point and adds them to their
      * respective queues. Marks the node as visited and calls the neighbor
      * function. Reduces the number of nodes in the current layer. If the number
      * of nodes in the current layer reaches zero increments the number of steps
