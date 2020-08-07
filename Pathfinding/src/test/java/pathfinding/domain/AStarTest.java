@@ -8,9 +8,9 @@ import org.junit.Before;
  *
  * @author hiski
  */
-public class BfsTest {
+public class AStarTest {
 
-    Bfs bfs;
+    AStar astr;
     char[][] map = {{'.', '.', '.', '.', '.'},
                     {'.', '@', '.', '.', '@'},
                     {'.', '@', '@', '@', '.'},
@@ -19,7 +19,7 @@ public class BfsTest {
 
     @Before
     public void setUp() {
-        bfs = new Bfs();
+        astr = new AStar();
 
     }
 
@@ -27,14 +27,13 @@ public class BfsTest {
     public void shortestPathReturnsTheCorrectLengthWhenPathIsFound() {
         int[] start = {4, 4};
         int[] end = {1, 0};
-        assertEquals(6, bfs.shortestPath(map, start, end));
+        assertEquals(6, astr.shortestPath(map, start, end));
     }
 
     @Test
     public void shortestPathReturnsMinusOneWhenPathIsNotFound() {
         int[] start = {0, 0};
         int[] end = {4, 0};
-        assertEquals(-1, bfs.shortestPath(map, start, end));
+        assertEquals(-1, astr.shortestPath(map, start, end));
     }
-
 }

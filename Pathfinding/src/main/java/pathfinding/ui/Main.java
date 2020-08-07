@@ -2,6 +2,7 @@
 package pathfinding.ui;
 
 import pathfinding.domain.Bfs;
+import pathfinding.domain.AStar;
 
 /**
  *
@@ -14,14 +15,20 @@ public class Main {
      */
     public static void main(String[] args) {
         Bfs b = new Bfs();
-        char[][] map = {{'.','.','.','.','.'},
-                        {'.','@','.','.','@'},
-                        {'.','@','@','@','.'},
+        AStar a = new AStar();
+        char[][] map = {{'@','@','.','.','.'},
                         {'@','@','.','.','.'},
+                        {'.','.','.','.','.'},
+                        {'.','.','.','.','.'},
                         {'.','.','.','.','.'}};
-        int[] start = {4,4};
-        int[] end = {1,0};
+        int[] start = {0,0};
+        int[] end = {4,4};
+        //long alku = System.nanoTime();
         System.out.println(b.shortestPath(map, start, end));
+        System.out.println(a.shortestPath(map, start, end));
+        //long loppu = System.nanoTime();
+        //System.out.println("Aikaa kului "+(loppu-alku)/1e9+" s");
+       
     }
     
 }
