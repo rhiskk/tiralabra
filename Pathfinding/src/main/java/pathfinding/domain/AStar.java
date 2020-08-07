@@ -48,11 +48,28 @@ public class AStar {
     //possible directions
     int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
                          {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
-
+    
+    
+     /**
+     * Heuristic function.
+     * 
+     * @param x yhe x-coordinate of the node
+     * @param y the y-coordinate of the node
+     * @return the diagonal distance from given coordinates to the end point.
+     */
     public int heuristic(int y, int x) {
         return Math.max(Math.abs(y - endPoint[0]), Math.abs(x - endPoint[1]));
     }
-
+    
+    
+    /**
+     * Returns the shortest path from the starting point to the ending point.
+     *
+     * @param map map as a grid
+     * @param start starting point
+     * @param end ending point
+     * @return length of the shortest path if a path is found. else -1
+     */
     public int shortestPath(char[][] map, int[] start, int[] end) {
         gridLength = map.length;
         gridWidth = map[0].length;
