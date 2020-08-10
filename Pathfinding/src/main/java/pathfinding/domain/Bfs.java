@@ -1,6 +1,6 @@
 package pathfinding.domain;
 
-import java.util.ArrayDeque;
+//import java.util.ArrayDeque;
 
 /**
  *
@@ -16,8 +16,10 @@ public class Bfs {
     int current; //nodes in the current layer
     int next; //nodes in the next layer
     int[] endPoint;
-    ArrayDeque<Integer> xQueue; //queue for x-coordinates
-    ArrayDeque<Integer> yQueue; //queue for y-coordinates
+    Queue xQueue;
+    Queue yQueue;
+    //ArrayDeque<Integer> xQueue; //queue for x-coordinates
+    //ArrayDeque<Integer> yQueue; //queue for y-coordinates
 
     //possible directions
     int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
@@ -32,10 +34,13 @@ public class Bfs {
      * @return length of the shortest path if a path is found. else -1
      */
     public int shortestPath(char[][] map, int[] start, int[] end) {
-        xQueue = new ArrayDeque<>();
-        yQueue = new ArrayDeque<>();
+        //xQueue = new ArrayDeque<>();
+        //yQueue = new ArrayDeque<>();
         gridLength = map.length;
         gridWidth = map[0].length;
+        int capacity = gridLength * gridWidth;
+        xQueue = new Queue(capacity);
+        yQueue = new Queue(capacity);
         pathLength = 0;
         next = 0;
         current = 1;

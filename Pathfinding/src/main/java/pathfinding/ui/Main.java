@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         Bfs b = new Bfs();
         AStar a = new AStar();
-        char[][] map = {{'@','@','.','.','.'},
+        char[][] map = {{'.','.','.','.','.'},
                         {'@','@','.','.','.'},
                         {'.','.','.','.','.'},
                         {'.','.','.','.','.'},
@@ -28,7 +28,6 @@ public class Main {
         System.out.println(a.shortestPath(map, start, end));
         //long loppu = System.nanoTime();
         //System.out.println("Aikaa kului "+(loppu-alku)/1e9+" s");
-       
     }
     
 }
