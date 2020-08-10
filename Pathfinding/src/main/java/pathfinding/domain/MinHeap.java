@@ -6,9 +6,9 @@ package pathfinding.domain;
  */
 public class MinHeap {
 
-    Node[] heap;
-    int size;
-    int maxSize;
+    private Node[] heap;
+    private int size;
+    private int maxSize;
 
     /**
      *

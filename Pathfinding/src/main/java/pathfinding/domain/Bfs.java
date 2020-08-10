@@ -8,21 +8,21 @@ package pathfinding.domain;
  */
 public class Bfs {
 
-    char[][] grid; //map as a grid
-    boolean[][] visited; //keeps track of which nodes have been visited
-    int gridLength;
-    int gridWidth;
-    int pathLength;
-    int current; //nodes in the current layer
-    int next; //nodes in the next layer
-    int[] endPoint;
-    Queue xQueue;
-    Queue yQueue;
+    private char[][] grid; //map as a grid
+    private boolean[][] visited; //keeps track of which nodes have been visited
+    private int gridLength;
+    private int gridWidth;
+    private int pathLength;
+    private int current; //nodes in the current layer
+    private int next; //nodes in the next layer
+    private int[] endPoint;
+    private Queue xQueue;
+    private Queue yQueue;
     //ArrayDeque<Integer> xQueue; //queue for x-coordinates
     //ArrayDeque<Integer> yQueue; //queue for y-coordinates
 
     //possible directions
-    int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
+    private int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
                          {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
@@ -66,7 +66,7 @@ public class Bfs {
      * @param y the y-coordinate of the node whose neighbors are being processed
      * @param x the x-coordinate of the node whose neighbors are being processed
      */
-    public void neighbors(int y, int x) {
+    private void neighbors(int y, int x) {
         for (int i = 0; i < 8; i++) {
             int newY = y + direction[i][0];
             int newX = x + direction[i][1];
@@ -99,7 +99,7 @@ public class Bfs {
      * @param x the x-coordinate of the starting point
      * @return true if the end point was reached, else false
      */
-    public boolean search(int y, int x) {
+    private boolean search(int y, int x) {
         yQueue.add(y);
         xQueue.add(x);
         visited[y][x] = true;

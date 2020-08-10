@@ -6,16 +6,16 @@ package pathfinding.domain;
  */
 public class AStar {
 
-    char[][] grid; //map as a grid
-    int[][] gGrid; //grid containing distances from start
-    boolean[][] visited; //keeps track of which nodes have been visited
-    int gridLength;
-    int gridWidth;
-    int[] endPoint;
-    MinHeap heap;
+    private char[][] grid; //map as a grid
+    private int[][] gGrid; //grid containing distances from start
+    private boolean[][] visited; //keeps track of which nodes have been visited
+    private int gridLength;
+    private int gridWidth;
+    private int[] endPoint;
+    private MinHeap heap;
 
     //possible directions
-    int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
+    private int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
                          {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
     
     
@@ -26,7 +26,7 @@ public class AStar {
      * @param y the y-coordinate of the node
      * @return the diagonal distance from given coordinates to the end point.
      */
-    public int heuristic(int y, int x) {
+    private int heuristic(int y, int x) {
         return Math.max(Math.abs(y - endPoint[0]), Math.abs(x - endPoint[1]));
     }
     
@@ -68,7 +68,7 @@ public class AStar {
      * @param y the y-coordinate of the node whose neighbors are being processed
      * @param x the x-coordinate of the node whose neighbors are being processed
      */
-    public void neighbors(int y, int x) {
+    private void neighbors(int y, int x) {
         for (int i = 0; i < 8; i++) {
             int newY = y + direction[i][0];
             int newX = x + direction[i][1];
@@ -94,7 +94,7 @@ public class AStar {
      * @param x the x-coordinate of the starting point
      * @return true if the end point was reached, else false
      */
-    public boolean search(int y, int x) {
+    private boolean search(int y, int x) {
         gGrid[y][x] = 0;
         heap.add(new Node(y, x, 0, heuristic(y, x)));
 

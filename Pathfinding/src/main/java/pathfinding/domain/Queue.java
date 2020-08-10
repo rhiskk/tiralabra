@@ -6,10 +6,10 @@ package pathfinding.domain;
  */
 public class Queue {
 
-    int[] array;
-    int head;
-    int tail;
-    int size;
+    private int[] array;
+    private int head;
+    private int tail;
+    private int size;
 
     /**
      *
