@@ -22,8 +22,8 @@ public class Bfs {
     //ArrayDeque<Integer> yQueue; //queue for y-coordinates
 
     //possible directions
-    private int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-                         {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+    private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
+                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
      * Returns the shortest path from the starting point to the ending point.

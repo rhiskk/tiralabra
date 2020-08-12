@@ -15,8 +15,8 @@ public class AStar {
     private MinHeap heap;
 
     //possible directions
-    private int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-                         {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+    private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
+                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
     
     
      /**
@@ -100,13 +100,15 @@ public class AStar {
 
         while (!heap.isEmpty()) {
             Node n = heap.poll();
-            visited[n.y][n.x] = true;
+            int newY = n.getY();
+            int newX = n.getX();
+            visited[newY][newX] = true;
 
-            if (n.y == endPoint[0] && n.x == endPoint[1]) {
+            if (newY == endPoint[0] && newX == endPoint[1]) {
                 return true;
             }
 
-            neighbors(n.y, n.x);
+            neighbors(newY, newX);
 
         }
         return false;
