@@ -8,7 +8,7 @@ Tietorakenteet ja algoritmit harjoitustyö loppukesä 2020.
 
 [Toteutusdokumentti](https://github.com/HiskiR/tiralabra/blob/master/dokumentaatio/toteutusdokumentti.md)
 
-[Testausdokuentti](https://github.com/HiskiR/tiralabra/blob/master/dokumentaatio/testausdokumentti.md)
+[Testausdokumentti](https://github.com/HiskiR/tiralabra/blob/master/dokumentaatio/testausdokumentti.md)
 
 ## Viikkoraportit
 
