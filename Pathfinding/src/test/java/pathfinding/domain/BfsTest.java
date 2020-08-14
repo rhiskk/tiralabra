@@ -10,7 +10,7 @@ import org.junit.Before;
  */
 public class BfsTest {
 
-    Bfs bfs;
+    BFS bfs;
     char[][] map = {{'.', '.', '.', '.', '.'},
                     {'.', '@', '.', '.', '@'},
                     {'.', '@', '@', '@', '.'},
@@ -19,7 +19,7 @@ public class BfsTest {
 
     @Before
     public void setUp() {
-        bfs = new Bfs();
+        bfs = new BFS();
 
     }
 

@@ -6,7 +6,7 @@ package pathfinding.domain;
  *
  * Class contains bfs-algorithm
  */
-public class Bfs {
+public class BFS {
 
     private char[][] grid; //map as a grid
     private boolean[][] visited; //keeps track of which nodes have been visited

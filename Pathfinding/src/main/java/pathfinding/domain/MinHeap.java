@@ -100,9 +100,6 @@ public class MinHeap {
      * @param node a node that is added to the heap.
      */
     public void add(Node node) {
-        if (size >= maxSize) {
-            return;
-        }
         size++;
         heap[size] = node;
         int pos = size;

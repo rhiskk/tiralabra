@@ -1,5 +1,6 @@
 package pathfinding.domain;
 
+//import java.util.PriorityQueue;
 /**
  *
  * Class contains A*-algorithm
@@ -13,15 +14,15 @@ public class AStar {
     private int gridWidth;
     private int[] endPoint;
     private MinHeap heap;
+    //private PriorityQueue<Node> heap;
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
                                        {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
-    
-    
-     /**
+
+    /**
      * Heuristic function.
-     * 
+     *
      * @param x yhe x-coordinate of the node
      * @param y the y-coordinate of the node
      * @return the diagonal distance from given coordinates to the end point.
@@ -29,8 +30,7 @@ public class AStar {
     private int heuristic(int y, int x) {
         return Math.max(Math.abs(y - endPoint[0]), Math.abs(x - endPoint[1]));
     }
-    
-    
+
     /**
      * Returns the shortest path from the starting point to the ending point.
      *
@@ -46,7 +46,8 @@ public class AStar {
         gGrid = new int[gridLength][gridWidth]; //grid containing g-values
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
-        heap = new MinHeap(999999);
+        heap = new MinHeap(gridLength * gridWidth);
+        //heap = new PriorityQueue<>();
         for (int i = 0; i < gridLength; i++) {
             for (int j = 0; j < gridWidth; j++) {
                 gGrid[i][j] = Integer.MAX_VALUE;
@@ -81,6 +82,7 @@ public class AStar {
             }
             if (gGrid[newY][newX] > gGrid[y][x] + 1) {
                 gGrid[newY][newX] = gGrid[y][x] + 1;
+
                 heap.add(new Node(newY, newX, gGrid[newY][newX],
                         heuristic(newY, newX)));
             }
@@ -102,14 +104,15 @@ public class AStar {
             Node n = heap.poll();
             int newY = n.getY();
             int newX = n.getX();
-            visited[newY][newX] = true;
+            if (!visited[newY][newX]) {
+                visited[newY][newX] = true;
 
-            if (newY == endPoint[0] && newX == endPoint[1]) {
-                return true;
+                if (newY == endPoint[0] && newX == endPoint[1]) {
+                    return true;
+                }
+
+                neighbors(newY, newX);
             }
-
-            neighbors(newY, newX);
-
         }
         return false;
     }
