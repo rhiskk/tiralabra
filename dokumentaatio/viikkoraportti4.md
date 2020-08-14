@@ -9,7 +9,7 @@
 
 ## Opin
 
-Sain käsityksen, kuinka JPS-algortimi olisi hyvä toteuttaa projektissa
+Sain käsityksen kuinka JPS-algortimi olisi hyvä toteuttaa projektissa
 
 
 ## Seuraavaksi
