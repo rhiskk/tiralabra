@@ -8,12 +8,14 @@ package pathfinding.domain;
 public class AStar {
 
     private char[][] grid; //map as a grid
-    private int[][] gGrid; //grid containing distances from start
+    private double[][] gGrid; //grid containing distances from start
     private boolean[][] visited; //keeps track of which nodes have been visited
     private int gridLength;
     private int gridWidth;
     private int[] endPoint;
     private MinHeap heap;
+    private double pathLength;
+    private Node endNode;
     //private PriorityQueue<Node> heap;
 
     //possible directions
@@ -39,14 +41,16 @@ public class AStar {
      * @param end ending point
      * @return length of the shortest path if a path is found. else -1
      */
-    public int shortestPath(char[][] map, int[] start, int[] end) {
+    public double shortestPath(char[][] map, int[] start, int[] end) {
         gridLength = map.length;
         gridWidth = map[0].length;
+        pathLength = 0;
         grid = map;
-        gGrid = new int[gridLength][gridWidth]; //grid containing g-values
+        gGrid = new double[gridLength][gridWidth]; //grid containing g-values
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
         heap = new MinHeap(gridLength * gridWidth);
+        
         //heap = new PriorityQueue<>();
         for (int i = 0; i < gridLength; i++) {
             for (int j = 0; j < gridWidth; j++) {
@@ -54,7 +58,8 @@ public class AStar {
             }
         }
         if (search(start[0], start[1])) {
-            return gGrid[end[0]][end[1]];
+            pathLength = gGrid[end[0]][end[1]]; 
+            return pathLength;
         }
 
         return -1;
@@ -63,14 +68,20 @@ public class AStar {
     /**
      * Adds neighboring nodes to the heap.
      *
-     * Takes the x and y coordinates of a node as parameters and adds all of its
+     * Takes a node as a parameter and adds all of its
      * valid neighboring nodes to the heap.
      *
      * @param y the y-coordinate of the node whose neighbors are being processed
      * @param x the x-coordinate of the node whose neighbors are being processed
      */
-    private void neighbors(int y, int x) {
+    private void neighbors(Node n) {
         for (int i = 0; i < 8; i++) {
+             double weight = 1;
+            if (i > 4) {
+                weight = Math.sqrt(2);
+            }
+            int y = n.getY();
+            int x = n.getX();
             int newY = y + direction[i][0];
             int newX = x + direction[i][1];
             //checks invalid coordinates
@@ -80,11 +91,12 @@ public class AStar {
 
                 continue;
             }
-            if (gGrid[newY][newX] > gGrid[y][x] + 1) {
-                gGrid[newY][newX] = gGrid[y][x] + 1;
-
-                heap.add(new Node(newY, newX, gGrid[newY][newX],
-                        heuristic(newY, newX)));
+            if (gGrid[newY][newX] > gGrid[y][x] + weight) {
+                gGrid[newY][newX] = gGrid[y][x] + weight;
+                Node newNode = new Node(newY, newX, gGrid[newY][newX],
+                        heuristic(newY, newX));
+                newNode.setParent(n);
+                heap.add(newNode);
             }
         }
     }
@@ -108,13 +120,22 @@ public class AStar {
                 visited[newY][newX] = true;
 
                 if (newY == endPoint[0] && newX == endPoint[1]) {
+                    endNode = n;                   
                     return true;
                 }
-
-                neighbors(newY, newX);
+                neighbors(n);
             }
         }
         return false;
     }
-
+    
+    public char[][] getPath() {
+        char[][] path = grid;
+        Node node = endNode;
+        while (node != null) {
+            path[node.getY()][node.getX()] = 'a';
+            node = node.getParent();
+        }
+        return path;
+    }
 }

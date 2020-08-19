@@ -32,8 +32,7 @@ public class MinHeapTest {
         assertFalse(minH.isEmpty());
     }
     
-    //test timeouts
-    @Test(timeout=999999999)
+    @Test
     public void nodesArePolledInTheCorrectOrder() {
         Random r = new Random();
         for (int i = 0; i < 100; i++) {

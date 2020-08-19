@@ -25,15 +25,18 @@ public class QueueTest {
     
     @Test
     public void isEmptyReturnsFalseIfQueueIsNotEmpty() {
-        q.add(1);
+        Node added = new Node(1, 1, 1, 0);
+        q.add(added);
         assertFalse(q.isEmpty());
     }
     
    @Test
    public void queuePollReturnsTheCorrectValue() {
-       q.add(1);
-       q.add(2);
-       assertEquals(1, q.poll());
-       assertEquals(2, q.poll());
+       Node added1 = new Node(1, 1, 1, 0);
+       Node added2 = new Node(2, 2, 2, 0);
+       q.add(added1);
+       q.add(added2);
+       assertEquals(1, q.poll().getX());
+       assertEquals(2, q.poll().getX());
    }
 }

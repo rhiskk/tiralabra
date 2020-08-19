@@ -6,7 +6,7 @@ package pathfinding.domain;
  */
 public class Queue {
 
-    private int[] array;
+    private Node[] array;
     private int head;
     private int tail;
     private int size;
@@ -16,7 +16,7 @@ public class Queue {
      * @param capacity capacity of the queue.
      */
     public Queue(int capacity) {
-        this.array = new int[capacity];
+        this.array = new Node[capacity];
         this.head = 0;
         this.tail = 0;
         this.size = 0;
@@ -28,8 +28,8 @@ public class Queue {
      *
      * @param i int value that is added to the queue.
      */
-    public void add(int i) {
-        array[tail] = i;
+    public void add(Node node) {
+        array[tail] = node;
         tail++;
         size++;
     }
@@ -40,7 +40,7 @@ public class Queue {
      *
      * @return int value that is removed from the queue.
      */
-    public int poll() {
+    public Node poll() {
         size--;
         int polled = head;
         head++;

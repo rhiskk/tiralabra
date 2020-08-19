@@ -1,65 +1,144 @@
-
 package pathfinding.ui;
 
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import javafx.application.Application;
 import pathfinding.domain.PathfindingService;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 /**
  *
  * Väliakainen tekstikäyttöliittymä
  */
-public class PathfindingUi {
-    
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner s = new Scanner(System.in);
-        PathfindingService ps = new PathfindingService();
+public class PathfindingUi extends Application {
+
+    private PathfindingService ps;
+    private char[][] map;
+
+    @Override
+    public void init() throws Exception {
+        ps = new PathfindingService();
+        map = ps.getMap();
+
+    }
+
+    @Override
+    public void start(Stage stage) throws FileNotFoundException {
+
+        BorderPane bPane = new BorderPane();
+        Pane pane = new Pane();
         
-        while (true) {
-            System.out.println("");
-            System.out.println("Toiminnot:");
-            System.out.println("0: Sulje ohjelma");
-            System.out.println("1: Syötä lähtökoordinaatit");
-            System.out.println("2: Syötä maalikoordinaatit");
-            System.out.println("3: Etsi lyhyin reitti leveyshaulla");
-            System.out.println("4: Etsi lyhyin reitti A*-algoritmilla");
-            System.out.println("5: Testaa leveyshaun nopeus");
-            System.out.println("6: Testaa A*-algoritmin nopeus");
-            System.out.println("");
-            System.out.print("Valitse toiminto:  ");
-            String f = s.nextLine();
-            System.out.println("");
-            
-            if (f.equals("0")) {
-                System.out.println("Ohjelma suljetaan.");
-                break;
-            } else if(f.equals("1")) {
-                System.out.print("Lähtö x: ");
-                f = s.nextLine();
-                int x = Integer.valueOf(f);
-                System.out.print("Lähtö y: ");
-                f = s.nextLine();
-                int y = Integer.valueOf(f);
-                ps.setStart(y, x);   
-            }  else if(f.equals("2")) {
-                System.out.print("Maali x: ");
-                f = s.nextLine();
-                int x = Integer.valueOf(f);
-                System.out.print("Maali y: ");
-                f = s.nextLine();
-                int y = Integer.valueOf(f);
-                ps.setEnd(y, x);
-            } else if(f.equals("3")) {
-                System.out.println(ps.bfsPathLength());
-            } else if(f.equals("4")) {
-                System.out.println(ps.aStarPathLength());
-            } else if(f.equals("5")) {
-                System.out.println(ps.bfsPerformance());
-            } else if(f.equals("6")) {
-                System.out.println(ps.aStarPerformance());
-            } else {
-                System.out.println("Virheellinen syöte!");
+        Label bfsLength = new Label("BFS length: ");
+        Label aStarLength = new Label("A* length: ");
+        Label bfsPerformance = new Label("BFS time: ");
+        Label aStarPerformance = new Label("A* time: ");
+
+        VBox results = new VBox();
+        results.getChildren().addAll(bfsLength, aStarLength, bfsPerformance, aStarPerformance);
+
+        Label start = new Label("alkupiste");
+        Label end = new Label("loppupiste");
+
+        TextField startX = new TextField("0");
+        TextField startY = new TextField("0");
+        TextField endX = new TextField("0");
+        TextField endY = new TextField("0");
+
+        HBox coordinates = new HBox();
+        coordinates.getChildren().addAll(start, startX, startY, end, endX, endY);
+        
+        Button setCoordinates = new Button("aseta koordinaatit");
+        Button pathBfs = new Button("lyhin bfs");
+        Button pathAStar = new Button("lyhin A*");
+        Button testBfs = new Button("tehokkuus bfs");
+        Button testAStar = new Button("tehokkuus A*");
+
+        HBox actions = new HBox();
+        actions.getChildren().addAll(setCoordinates, pathBfs, pathAStar, testBfs, testAStar);
+        
+        VBox box = new VBox();
+        box.getChildren().addAll(coordinates, results, actions);
+
+        bPane.setLeft(pane);
+        bPane.setRight(box);
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                if (map[j][i] == '@') {
+                    Rectangle square = new Rectangle(i / 2, j / 2, 1, 1);
+                    square.setFill(Color.BLACK);
+                    pane.getChildren().add(square);
+                }
             }
         }
+
+        Scene scene = new Scene(bPane);
+
+        /*Button pathBfs = new Button("lyhin bfs");
+        Button pathAStar = new Button("lyhin A*");
+        Button testBfs = new Button("tehokkuus bfs");
+        Button testAStar = new Button("tehokkuus A*");*/
+        setCoordinates.setOnAction((event) -> {
+            ps.setStart(Integer.valueOf(startY.getText()), Integer.valueOf(startX.getText()));
+            ps.setEnd(Integer.valueOf(endY.getText()), Integer.valueOf(endX.getText()));
+        });
+
+        pathBfs.setOnAction((event) -> {
+            bfsLength.setText(ps.bfsPathLength());
+            char[][] path = ps.getBPath();
+            for (int i = 0; i < path.length; i++) {
+                for (int j = 0; j < path.length; j++) {
+                    if (path[j][i] == 'b') {
+                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        rectangle.setFill(Color.BLUE);
+                        pane.getChildren().add(rectangle);
+                    }
+                }
+            }
+        });
+
+        pathAStar.setOnAction((event) -> {
+            aStarLength.setText(ps.aStarPathLength());
+            char[][] path = ps.getAPath();
+            for (int i = 0; i < path.length; i++) {
+                for (int j = 0; j < path.length; j++) {
+                    if (path[j][i] == 'a') {
+                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        rectangle.setFill(Color.RED);
+                        pane.getChildren().add(rectangle);
+                    }
+                }
+            }
+        });
+
+        testBfs.setOnAction((event) -> {
+            bfsPerformance.setText(ps.bfsPerformance());
+        });
+
+        testAStar.setOnAction((event) -> {
+            aStarPerformance.setText(ps.aStarPerformance());
+        });
+
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("sovellus sulkeutuu");
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        launch(args);
     }
 }

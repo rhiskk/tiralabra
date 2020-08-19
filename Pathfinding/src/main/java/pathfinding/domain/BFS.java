@@ -1,7 +1,6 @@
 package pathfinding.domain;
 
 //import java.util.ArrayDeque;
-
 /**
  *
  * Class contains bfs-algorithm
@@ -12,18 +11,17 @@ public class BFS {
     private boolean[][] visited; //keeps track of which nodes have been visited
     private int gridLength;
     private int gridWidth;
-    private int pathLength;
-    private int current; //nodes in the current layer
-    private int next; //nodes in the next layer
+    private double pathLength;
     private int[] endPoint;
-    private Queue xQueue;
-    private Queue yQueue;
+    private Queue Queue;
+    private Node endNode;
+    private char[][] path;
     //ArrayDeque<Integer> xQueue; //queue for x-coordinates
     //ArrayDeque<Integer> yQueue; //queue for y-coordinates
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+    {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
      * Returns the shortest path from the starting point to the ending point.
@@ -33,28 +31,32 @@ public class BFS {
      * @param end ending point
      * @return length of the shortest path if a path is found. else -1
      */
-    public int shortestPath(char[][] map, int[] start, int[] end) {
-        //xQueue = new ArrayDeque<>();
-        //yQueue = new ArrayDeque<>();
+    public double shortestPath(char[][] map, int[] start, int[] end) {
         gridLength = map.length;
         gridWidth = map[0].length;
         int capacity = gridLength * gridWidth;
-        xQueue = new Queue(capacity);
-        yQueue = new Queue(capacity);
+        Queue = new Queue(capacity);
         pathLength = 0;
-        next = 0;
-        current = 1;
         grid = map;
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
-
         if (search(start[0], start[1])) {
+            constructPath();
             return pathLength;
         }
         return -1;
-
     }
-
+    
+    private void constructPath() {
+        path = grid;
+            Node node = endNode;
+            while (node != null) {
+                path[node.getY()][node.getX()] = 'b';
+                pathLength += node.getG();
+                node = node.getParent();
+            }
+    }
+    
     /**
      * Processes the neighboring nodes.
      *
@@ -66,10 +68,14 @@ public class BFS {
      * @param y the y-coordinate of the node whose neighbors are being processed
      * @param x the x-coordinate of the node whose neighbors are being processed
      */
-    private void neighbors(int y, int x) {
+    private void neighbors(Node node) {
         for (int i = 0; i < 8; i++) {
-            int newY = y + direction[i][0];
-            int newX = x + direction[i][1];
+            double weight = 1;
+            if (i > 4) {
+                weight = Math.sqrt(2);
+            }
+            int newY = node.getY() + direction[i][0];
+            int newX = node.getX() + direction[i][1];
 
             //checks invalid coordinates
             if (newY < 0 || newX < 0 || newY >= gridLength
@@ -79,10 +85,10 @@ public class BFS {
                 continue;
             }
 
-            yQueue.add(newY);
-            xQueue.add(newX);
+            Node newNode = new Node(newY, newX, weight, 0);
+            newNode.setParent(node);
+            Queue.add(newNode);
             visited[newY][newX] = true;
-            next++;
         }
     }
 
@@ -100,25 +106,22 @@ public class BFS {
      * @return true if the end point was reached, else false
      */
     private boolean search(int y, int x) {
-        yQueue.add(y);
-        xQueue.add(x);
+        Queue.add(new Node(y, x, 0, 0));
         visited[y][x] = true;
 
-        while (!yQueue.isEmpty()) {
-            y = yQueue.poll();
-            x = xQueue.poll();
-            if (y == endPoint[0] && x == endPoint[1]) {
+        while (!Queue.isEmpty()) {
+            Node node = Queue.poll();
+            if (node.getY() == endPoint[0] && node.getX() == endPoint[1]) {
+                endNode = node;
                 return true;
             }
-            neighbors(y, x);
-            current--;
-            if (current == 0) {
-                current = next;
-                next = 0;
-                pathLength++;
-            }
+            neighbors(node);
         }
         return false;
+    }
+
+    public char[][] getPath() {
+        return path;
     }
 
 }

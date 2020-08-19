@@ -8,11 +8,12 @@ public class Node implements Comparable<Node> {
 
     private int y; //y-coordinate
     private int x; //x-coordinate
-    private int g; //distance from start
+    private double g; //distance from start
     private int h; //heuristic
-    private int f; //distance from start + heuristic
+    private double f; //distance from start + heuristic
+    private Node parent;
 
-    public Node(int y, int x, int g, int h) {
+    public Node(int y, int x, double g, int h) {
         this.y = y;
         this.x = x;
         this.g = g;
@@ -34,5 +35,17 @@ public class Node implements Comparable<Node> {
     
     public int getY() {
         return y;
+    }
+    
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+    
+    public Node getParent() {
+        return parent;
+    }
+    
+    public double getG() {
+        return g;
     }
 }

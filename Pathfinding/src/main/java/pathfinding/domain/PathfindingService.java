@@ -2,6 +2,8 @@ package pathfinding.domain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -16,8 +18,11 @@ public class PathfindingService {
     private char[][] map;
     private int[] start;
     private int[] end;
+    private DecimalFormat df;
 
     public PathfindingService() throws FileNotFoundException {
+        df = new DecimalFormat("#.###");
+        df.setRoundingMode(RoundingMode.CEILING);
         ms = new MapScanner();
         b = new BFS();
         a = new AStar();
@@ -39,13 +44,13 @@ public class PathfindingService {
     }
 
     public String bfsPathLength() {
-        int length = b.shortestPath(map, start, end);
-        return "BFS length: " + length;
+        double length = b.shortestPath(map, start, end);
+        return "BFS length: " + df.format(length);
     }
 
     public String aStarPathLength() {
-        int length = a.shortestPath(map, start, end);
-        return "A* length: " + length;
+        double length = a.shortestPath(map, start, end);
+        return "A* length: " + df.format(length);
     }
 
     public String bfsPerformance() {
@@ -55,6 +60,18 @@ public class PathfindingService {
 
     public String aStarPerformance() {
         pt = new PerformanceTest(map, start, end);
-        return "A* time " + (pt.test(2)) + " ms";
+        return "A* time: " + (pt.test(2)) + " ms";
+    }
+    
+    public char[][] getMap() {
+        return map;
+    }
+    
+    public char[][] getAPath() {
+        return a.getPath();
+    }
+    
+     public char[][] getBPath() {
+        return b.getPath();
     }
 }
