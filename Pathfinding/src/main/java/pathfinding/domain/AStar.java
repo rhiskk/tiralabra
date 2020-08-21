@@ -1,6 +1,5 @@
 package pathfinding.domain;
 
-//import java.util.PriorityQueue;
 /**
  *
  * Class contains A*-algorithm
@@ -16,7 +15,6 @@ public class AStar {
     private MinHeap heap;
     private double pathLength;
     private Node endNode;
-    //private PriorityQueue<Node> heap;
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
@@ -50,8 +48,7 @@ public class AStar {
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
         heap = new MinHeap(gridLength * gridWidth);
-        
-        //heap = new PriorityQueue<>();
+
         for (int i = 0; i < gridLength; i++) {
             for (int j = 0; j < gridWidth; j++) {
                 gGrid[i][j] = Integer.MAX_VALUE;
@@ -71,13 +68,12 @@ public class AStar {
      * Takes a node as a parameter and adds all of its
      * valid neighboring nodes to the heap.
      *
-     * @param y the y-coordinate of the node whose neighbors are being processed
-     * @param x the x-coordinate of the node whose neighbors are being processed
+     * @param node the node whose neighbors are being processed
      */
     private void neighbors(Node n) {
         for (int i = 0; i < 8; i++) {
-             double weight = 1;
-            if (i > 4) {
+            double weight = 1;
+            if (i > 3) {
                 weight = Math.sqrt(2);
             }
             int y = n.getY();
@@ -129,6 +125,12 @@ public class AStar {
         return false;
     }
     
+    
+     /**
+     * Returns the found path as an ASCII-grid.
+     *
+     * @return the found path as an ASCII-grid.
+     */
     public char[][] getPath() {
         char[][] path = grid;
         Node node = endNode;

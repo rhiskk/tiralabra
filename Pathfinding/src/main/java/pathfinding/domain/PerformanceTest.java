@@ -30,6 +30,7 @@ public class PerformanceTest {
                         sum += result;
                     }
                 }
+                
             case 2:
                 AStar a = new AStar();
                 for (int i = 0; i < 5; i++) {
@@ -41,6 +42,19 @@ public class PerformanceTest {
                         sum += result;
                     }
                 }
+                
+            case 3:
+                JPS j = new JPS();
+                for (int i = 0; i < 5; i++) {
+                    long s = System.nanoTime();
+                    j.shortestPath(map, start, end);
+                    long e = System.nanoTime();
+                    if (i != 0) {
+                        long result = e - s;
+                        sum += result;
+                    }
+                }
+                
             default:
                 break;
         }       

@@ -15,6 +15,7 @@ public class PathfindingService {
     private PerformanceTest pt;
     private BFS b;
     private AStar a;
+    private JPS j;
     private char[][] map;
     private int[] start;
     private int[] end;
@@ -26,6 +27,7 @@ public class PathfindingService {
         ms = new MapScanner();
         b = new BFS();
         a = new AStar();
+        j = new JPS();
         map = ms.scan(new File("./Berlin_0_1024.map"));
         start = new int[2];
         end = new int[2];
@@ -45,12 +47,26 @@ public class PathfindingService {
 
     public String bfsPathLength() {
         double length = b.shortestPath(map, start, end);
+        if (length == -1) {
+            return "Path not found";
+        }
         return "BFS length: " + df.format(length);
     }
 
     public String aStarPathLength() {
         double length = a.shortestPath(map, start, end);
+        if (length == -1) {
+            return "Path not found";
+        }
         return "A* length: " + df.format(length);
+    }
+
+    public String jpsPathLength() {
+        double length = j.shortestPath(map, start, end);
+        if (length == -1) {
+            return "Path not found";
+        }
+        return "JPS length: " + df.format(length);
     }
 
     public String bfsPerformance() {
@@ -63,15 +79,24 @@ public class PathfindingService {
         return "A* time: " + (pt.test(2)) + " ms";
     }
     
+    public String jpsPerformance() {
+        pt = new PerformanceTest(map, start, end);
+        return "JPS* time: " + (pt.test(3)) + " ms";
+    }
+
     public char[][] getMap() {
         return map;
     }
-    
+
     public char[][] getAPath() {
         return a.getPath();
     }
-    
-     public char[][] getBPath() {
+
+    public char[][] getJPath() {
+        return j.getPath();
+    }
+
+    public char[][] getBPath() {
         return b.getPath();
     }
 }

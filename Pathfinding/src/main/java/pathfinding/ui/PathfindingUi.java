@@ -36,14 +36,16 @@ public class PathfindingUi extends Application {
 
         BorderPane bPane = new BorderPane();
         Pane pane = new Pane();
-        
+
         Label bfsLength = new Label("BFS length: ");
         Label aStarLength = new Label("A* length: ");
+        Label jpsLength = new Label("JPS length: ");
         Label bfsPerformance = new Label("BFS time: ");
         Label aStarPerformance = new Label("A* time: ");
+        Label jpsPerformance = new Label("JPS time: ");
 
         VBox results = new VBox();
-        results.getChildren().addAll(bfsLength, aStarLength, bfsPerformance, aStarPerformance);
+        results.getChildren().addAll(bfsLength, aStarLength, jpsLength, bfsPerformance, aStarPerformance, jpsPerformance);
 
         Label start = new Label("alkupiste");
         Label end = new Label("loppupiste");
@@ -55,16 +57,19 @@ public class PathfindingUi extends Application {
 
         HBox coordinates = new HBox();
         coordinates.getChildren().addAll(start, startX, startY, end, endX, endY);
-        
+
         Button setCoordinates = new Button("aseta koordinaatit");
         Button pathBfs = new Button("lyhin bfs");
         Button pathAStar = new Button("lyhin A*");
+        Button pathJps = new Button("lyhin jps");
         Button testBfs = new Button("tehokkuus bfs");
         Button testAStar = new Button("tehokkuus A*");
+        Button testJps = new Button("tehokkuus jps");
+        //Button clear = new Button("Clear paths");
 
         HBox actions = new HBox();
-        actions.getChildren().addAll(setCoordinates, pathBfs, pathAStar, testBfs, testAStar);
-        
+        actions.getChildren().addAll(setCoordinates, pathBfs, pathAStar, pathJps, testBfs, testAStar, testJps);
+
         VBox box = new VBox();
         box.getChildren().addAll(coordinates, results, actions);
 
@@ -83,14 +88,23 @@ public class PathfindingUi extends Application {
 
         Scene scene = new Scene(bPane);
 
-        /*Button pathBfs = new Button("lyhin bfs");
-        Button pathAStar = new Button("lyhin A*");
-        Button testBfs = new Button("tehokkuus bfs");
-        Button testAStar = new Button("tehokkuus A*");*/
         setCoordinates.setOnAction((event) -> {
             ps.setStart(Integer.valueOf(startY.getText()), Integer.valueOf(startX.getText()));
             ps.setEnd(Integer.valueOf(endY.getText()), Integer.valueOf(endX.getText()));
         });
+
+        /*clear.setOnAction((event) -> {
+            pane.getChildren().clear();
+            for (int i = 0; i < map.length; i++) {
+                for (int j = 0; j < map[0].length; j++) {
+                    if (map[j][i] == '@') {
+                        Rectangle square = new Rectangle(i / 2, j / 2, 1, 1);
+                        square.setFill(Color.BLACK);
+                        pane.getChildren().add(square);
+                    }
+                }
+            }
+        });*/
 
         pathBfs.setOnAction((event) -> {
             bfsLength.setText(ps.bfsPathLength());
@@ -120,6 +134,27 @@ public class PathfindingUi extends Application {
             }
         });
 
+        pathJps.setOnAction((event) -> {
+            jpsLength.setText(ps.jpsPathLength());
+            char[][] path = ps.getJPath();
+            for (int i = 0; i < path.length; i++) {
+                for (int j = 0; j < path.length; j++) {
+                    if (path[j][i] == 'j') {
+                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        rectangle.setFill(Color.GREEN);
+                        pane.getChildren().add(rectangle);
+                    }
+                    if (path[j][i] == 'p') {
+                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        rectangle.setFill(Color.MAGENTA);
+                        pane.getChildren().add(rectangle);
+                    }
+
+                }
+            }
+
+        });
+
         testBfs.setOnAction((event) -> {
             bfsPerformance.setText(ps.bfsPerformance());
         });
@@ -128,14 +163,13 @@ public class PathfindingUi extends Application {
             aStarPerformance.setText(ps.aStarPerformance());
         });
 
+        testJps.setOnAction((event) -> {
+            jpsPerformance.setText(ps.jpsPerformance());
+        });
+
         stage.setScene(scene);
         stage.show();
 
-    }
-
-    @Override
-    public void stop() {
-        System.out.println("sovellus sulkeutuu");
     }
 
     public static void main(String[] args) throws FileNotFoundException {

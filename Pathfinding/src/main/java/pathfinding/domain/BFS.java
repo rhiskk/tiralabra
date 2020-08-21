@@ -16,8 +16,6 @@ public class BFS {
     private Queue Queue;
     private Node endNode;
     private char[][] path;
-    //ArrayDeque<Integer> xQueue; //queue for x-coordinates
-    //ArrayDeque<Integer> yQueue; //queue for y-coordinates
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
@@ -47,6 +45,11 @@ public class BFS {
         return -1;
     }
     
+    
+     /**
+     * Constructs the found path and calculates its length.
+     *
+     */
     private void constructPath() {
         path = grid;
             Node node = endNode;
@@ -60,10 +63,8 @@ public class BFS {
     /**
      * Processes the neighboring nodes.
      *
-     * Takes the x and y coordinates of a node as parameters, adds all of their
-     * valid adjecent coordinates to their respective queues, marks the
-     * neighboring nodes as visited and increments the number of nodes in the
-     * next layer.
+     * Takes the x and y coordinates of a node as parameters, adds all of its
+     * valid adjecent nodes to the queue, marks them as visited.
      *
      * @param y the y-coordinate of the node whose neighbors are being processed
      * @param x the x-coordinate of the node whose neighbors are being processed
@@ -71,7 +72,7 @@ public class BFS {
     private void neighbors(Node node) {
         for (int i = 0; i < 8; i++) {
             double weight = 1;
-            if (i > 4) {
+            if (i > 3) {
                 weight = Math.sqrt(2);
             }
             int newY = node.getY() + direction[i][0];
@@ -95,11 +96,9 @@ public class BFS {
     /**
      * Handles the search.
      *
-     * Takes the x and y coordinates of the starting point and adds them to
-     * their respective queues. Marks the node as visited and calls the neighbor
-     * function. Reduces the number of nodes in the current layer. If the number
-     * of nodes in the current layer reaches zero increments the number of steps
-     * taken.
+     * Takes the x and y coordinates of the starting point, creates a new node 
+     * and adds it to the queue. Marks the node as visited and calls the neighbor
+     * function.
      *
      * @param y the y-coordinate of the starting point
      * @param x the x-coordinate of the starting point
@@ -120,6 +119,12 @@ public class BFS {
         return false;
     }
 
+    
+     /**
+     * Returns the found path as an ASCII-grid.
+     *
+     * @return the found path as an ASCII-grid.
+     */
     public char[][] getPath() {
         return path;
     }
