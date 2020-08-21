@@ -19,3 +19,5 @@ Tietorakenteet ja algoritmit harjoitustyö loppukesä 2020.
 [Viikko 3](https://github.com/HiskiR/tiralabra/blob/master/dokumentaatio/viikkoraportti3.md)
 
 [Viikko 4](https://github.com/HiskiR/tiralabra/blob/master/dokumentaatio/viikkoraportti4.md)
+
+[Viikko 5](https://github.com/HiskiR/tiralabra/blob/master/dokumentaatio/viikkoraportti5.md)
