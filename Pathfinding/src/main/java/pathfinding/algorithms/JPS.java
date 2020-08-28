@@ -1,6 +1,7 @@
-package pathfinding.domain;
+package pathfinding.algorithms;
 
-import java.util.ArrayList;
+import pathfinding.datastructures.MinHeap;
+import pathfinding.datastructures.Node;
 
 /**
  *
@@ -26,10 +27,12 @@ public class JPS {
      *
      * @param x yhe x-coordinate of the node
      * @param y the y-coordinate of the node
-     * @return the diagonal distance from given coordinates to the end point.
+     * @return the euclidean distance from given coordinates to the end point.
      */
-    private int heuristic(int y, int x) {
-        return Math.max(Math.abs(y - endPoint[0]), Math.abs(x - endPoint[1]));
+    private double heuristic(int y, int x) {
+        int yd = y - endPoint[0];
+        int xd = x - endPoint[1];
+        return Math.sqrt(yd * yd + xd * xd);
     }
 
     /**
@@ -96,9 +99,12 @@ public class JPS {
      * @param node the node whose successors are being searched.
      */
     private void successors(Node node) {
-        ArrayList<int[]> neighbors = findNeighbors(node);
+        int[][] neighbors = findNeighbors(node);
 
         for (int[] n : neighbors) {
+            if (n == null) {
+                continue;
+            }
             int y = node.getY();
             int x = node.getX();
             int[] jumpPoint = jump(n[0], n[1], y, x);
@@ -127,11 +133,15 @@ public class JPS {
 
     /**
      * Searches for a jump point.
-     * 
-     * @param y the y-coordinate of the node from which the jump point is being searched.
-     * @param x the x-coordinate of the node from which the jump point is being searched.
-     * @param py the y-coordinate of the node towards of which the jump point is being searched.
-     * @param px the x-coordinate of the node towards of which the jump point is being searched.
+     *
+     * @param y the y-coordinate of the node from which the jump point is being
+     * searched.
+     * @param x the x-coordinate of the node from which the jump point is being
+     * searched.
+     * @param py the y-coordinate of the node towards of which the jump point is
+     * being searched.
+     * @param px the x-coordinate of the node towards of which the jump point is
+     * being searched.
      * @return the coordinates of the jump point
      */
     private int[] jump(int y, int x, int py, int px) {
@@ -151,7 +161,7 @@ public class JPS {
 
         //diagonal forced neighbors
         if (dy != 0 && dx != 0) {
-            
+
             if (valid(y + dy, x - dx) && !valid(y, x - dx)
                     || valid(y - dy, x + dx) && !valid(y - dy, x)) {
                 return jumpPoint;
@@ -178,90 +188,90 @@ public class JPS {
 
         return jump(y + dy, x + dx, y, x);
     }
-    
-    
+
     /**
      * Searches neighbors for the given node.
-     * 
+     *
      * @param node the node of which neighbors are being searched.
      * @return list of coordinates of the found neighbors
      */
-    private ArrayList<int[]> findNeighbors(Node node) {
-        ArrayList<int[]> neighbors = new ArrayList<>();
+    private int[][] findNeighbors(Node node) {
+        int[][] neighbors = new int[8][];
+        int i = 0;
         Node parent = node.getParent();
 
         int y = node.getY();
         int x = node.getX();
-        
+
         //if the node has a parent some neighbors can be ignored
         if (parent != null) {
-            
+
             //direction
             int dy = (node.getY() - parent.getY())
                     / Math.max(Math.abs(node.getY() - parent.getY()), 1);
             int dx = (node.getX() - parent.getX())
                     / Math.max(Math.abs(node.getX() - parent.getX()), 1);
-            
+
             //diagonal neighbors
             if (dy != 0 && dx != 0) {
                 if (valid(y + dy, x)) {
-                    neighbors.add(new int[]{y + dy, x});
+                    neighbors[i++] = new int[]{y + dy, x};
                 }
                 if (valid(y, x + dx)) {
-                    neighbors.add(new int[]{y, x + dx});
+                    neighbors[i++] = new int[]{y, x + dx};
                 }
                 if (valid(y + dy, x + dx)) {
-                    neighbors.add(new int[]{y + dy, x + dx});
+                    neighbors[i++] = new int[]{y + dy, x + dx};
                 }
                 if (!valid(y - dy, x)) {
-                    neighbors.add(new int[]{y - dy, x + dx});
+                    neighbors[i++] = new int[]{y - dy, x + dx};
                 }
                 if (!valid(y, x - dx)) {
-                    neighbors.add(new int[]{y + dy, x - dx});
+                    neighbors[i++] = new int[]{y + dy, x - dx};
                 }
             } else {
                 //vertical neighbors
                 if (dy == 0) {
                     if (valid(y, x + dx)) {
-                        neighbors.add(new int[]{y, x + dx});
+                        neighbors[i++] = new int[]{y, x + dx};
                     }
                     if (!valid(y + 1, x)) {
-                        neighbors.add(new int[]{y + 1, x + dx});
+                        neighbors[i++] = new int[]{y + 1, x + dx};
                     }
                     if (!valid(y - 1, x)) {
-                        neighbors.add(new int[]{y - 1, x + dx});
+                        neighbors[i++] = new int[]{y - 1, x + dx};
                     }
-                //horizontal neighbors
+                    //horizontal neighbors
                 } else {
                     if (valid(y + dy, x)) {
-                        neighbors.add(new int[]{y + dy, x});
+                        neighbors[i++] = new int[]{y + dy, x};
                     }
                     if (!valid(y, x + 1)) {
-                        neighbors.add(new int[]{y + dy, x + 1});
+                        neighbors[i++] = new int[]{y + dy, x + 1};
                     }
                     if (!valid(y, x - 1)) {
-                        neighbors.add(new int[]{y + dy, x - 1});
+                        neighbors[i++] = new int[]{y + dy, x - 1};
                     }
                 }
             }
 
         } else {
-            for (int i = 0; i < direction.length; i++) {
+            for (i = 0; i < direction.length; i++) {
                 int newY = y + direction[i][0];
                 int newX = x + direction[i][1];
                 if (valid(newY, newX)) {
-                    neighbors.add(new int[]{newY, newX});
+                    neighbors[i] = new int[]{newY, newX};
                 }
             }
         }
         return neighbors;
     }
-    
-     /**
+
+    /**
      * Returns the found path and jump points.
-     * 
-     * 
-     * @return ASCII-grid to which jump points are marked as 'p' and and the 
+     *
+     *
+     * @return ASCII-grid to which jump points are marked as 'p' and and the
      * points between points are marked as 'j'.
      */
     public char[][] getPath() {
@@ -302,10 +312,10 @@ public class JPS {
         }
         return path;
     }
-    
-     /**
+
+    /**
      * Checks if the given coordinates are inside the grid and are not blocked.
-     * 
+     *
      * @param y y-coordinate.
      * @param x x-coordinate.
      * @return true if coordinates are valid, else false

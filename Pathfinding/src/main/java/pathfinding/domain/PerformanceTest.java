@@ -1,5 +1,9 @@
 package pathfinding.domain;
 
+import pathfinding.algorithms.JPS;
+import pathfinding.algorithms.AStar;
+import pathfinding.algorithms.BFS;
+
 /**
  *
  * Class handles performance testing
@@ -18,10 +22,11 @@ public class PerformanceTest {
 
     public long test(int algo) {
         long sum = 0;
+        int runs = 8;
         switch (algo) {
             case 1:
                 BFS b = new BFS();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < runs; i++) {
                     long s = System.nanoTime();
                     b.shortestPath(map, start, end);
                     long e = System.nanoTime();
@@ -33,7 +38,7 @@ public class PerformanceTest {
                 
             case 2:
                 AStar a = new AStar();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < runs; i++) {
                     long s = System.nanoTime();
                     a.shortestPath(map, start, end);
                     long e = System.nanoTime();
@@ -45,7 +50,7 @@ public class PerformanceTest {
                 
             case 3:
                 JPS j = new JPS();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < runs; i++) {
                     long s = System.nanoTime();
                     j.shortestPath(map, start, end);
                     long e = System.nanoTime();
@@ -58,7 +63,7 @@ public class PerformanceTest {
             default:
                 break;
         }       
-        return Math.round((sum / 4) / 1e6);
+        return Math.round((sum / (runs - 1)) / 1e6);
     }
 
 }

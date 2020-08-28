@@ -1,5 +1,5 @@
 
-package pathfinding.domain;
+package pathfinding.datastructures;
 
 import java.util.Random;
 import org.junit.Test;
@@ -39,13 +39,12 @@ public class MinHeapTest {
             minH.add(new Node(1, 1, r.nextInt(100), r.nextInt(100)));
         }
         boolean t = true;
-        for (int i = 0; i < 100; i++) {
+        while (!minH.isEmpty()) {
             Node p1 = minH.poll();
             Node p2 = minH.poll();
             if (p1.compareTo(p2) == 1) {
                 t = false;
             }
-            i++;
         }
         assertTrue(t);
     }   

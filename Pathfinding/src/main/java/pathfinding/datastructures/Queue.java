@@ -1,4 +1,4 @@
-package pathfinding.domain;
+package pathfinding.datastructures;
 
 /**
  *
@@ -26,7 +26,7 @@ public class Queue {
      *
      * Adds an int value at the back of the queue.
      *
-     * @param i int value that is added to the queue.
+     * @param node int value that is added to the queue.
      */
     public void add(Node node) {
         array[tail] = node;

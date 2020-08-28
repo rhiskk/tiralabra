@@ -65,10 +65,10 @@ public class PathfindingUi extends Application {
         Button testBfs = new Button("tehokkuus bfs");
         Button testAStar = new Button("tehokkuus A*");
         Button testJps = new Button("tehokkuus jps");
-        //Button clear = new Button("Clear paths");
+        Button clear = new Button("Clear paths");
 
         HBox actions = new HBox();
-        actions.getChildren().addAll(setCoordinates, pathBfs, pathAStar, pathJps, testBfs, testAStar, testJps);
+        actions.getChildren().addAll(setCoordinates, pathBfs, pathAStar, pathJps, testBfs, testAStar, testJps, clear);
 
         VBox box = new VBox();
         box.getChildren().addAll(coordinates, results, actions);
@@ -79,7 +79,7 @@ public class PathfindingUi extends Application {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[0].length; j++) {
                 if (map[j][i] == '@') {
-                    Rectangle square = new Rectangle(i / 2, j / 2, 1, 1);
+                    Rectangle square = new Rectangle(i, j, 1, 1);
                     square.setFill(Color.BLACK);
                     pane.getChildren().add(square);
                 }
@@ -93,26 +93,26 @@ public class PathfindingUi extends Application {
             ps.setEnd(Integer.valueOf(endY.getText()), Integer.valueOf(endX.getText()));
         });
 
-        /*clear.setOnAction((event) -> {
+        clear.setOnAction((event) -> {
             pane.getChildren().clear();
             for (int i = 0; i < map.length; i++) {
                 for (int j = 0; j < map[0].length; j++) {
                     if (map[j][i] == '@') {
-                        Rectangle square = new Rectangle(i / 2, j / 2, 1, 1);
+                        Rectangle square = new Rectangle(i, j, 1, 1);
                         square.setFill(Color.BLACK);
                         pane.getChildren().add(square);
                     }
                 }
             }
-        });*/
+        });
 
         pathBfs.setOnAction((event) -> {
-            bfsLength.setText(ps.bfsPathLength());
+            bfsLength.setText("BFS: " + ps.bfsPathLength());
             char[][] path = ps.getBPath();
             for (int i = 0; i < path.length; i++) {
                 for (int j = 0; j < path.length; j++) {
                     if (path[j][i] == 'b') {
-                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        Rectangle rectangle = new Rectangle(i, j, 2, 2);
                         rectangle.setFill(Color.BLUE);
                         pane.getChildren().add(rectangle);
                     }
@@ -121,12 +121,12 @@ public class PathfindingUi extends Application {
         });
 
         pathAStar.setOnAction((event) -> {
-            aStarLength.setText(ps.aStarPathLength());
+            aStarLength.setText("A*: " + ps.aStarPathLength());
             char[][] path = ps.getAPath();
             for (int i = 0; i < path.length; i++) {
                 for (int j = 0; j < path.length; j++) {
                     if (path[j][i] == 'a') {
-                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        Rectangle rectangle = new Rectangle(i, j, 2, 2);
                         rectangle.setFill(Color.RED);
                         pane.getChildren().add(rectangle);
                     }
@@ -135,17 +135,17 @@ public class PathfindingUi extends Application {
         });
 
         pathJps.setOnAction((event) -> {
-            jpsLength.setText(ps.jpsPathLength());
+            jpsLength.setText("JPS: " + ps.jpsPathLength());
             char[][] path = ps.getJPath();
             for (int i = 0; i < path.length; i++) {
                 for (int j = 0; j < path.length; j++) {
                     if (path[j][i] == 'j') {
-                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        Rectangle rectangle = new Rectangle(i, j, 2, 2);
                         rectangle.setFill(Color.GREEN);
                         pane.getChildren().add(rectangle);
                     }
                     if (path[j][i] == 'p') {
-                        Rectangle rectangle = new Rectangle(i / 2, j / 2, 2, 2);
+                        Rectangle rectangle = new Rectangle(i, j, 2, 2);
                         rectangle.setFill(Color.MAGENTA);
                         pane.getChildren().add(rectangle);
                     }
@@ -156,15 +156,15 @@ public class PathfindingUi extends Application {
         });
 
         testBfs.setOnAction((event) -> {
-            bfsPerformance.setText(ps.bfsPerformance());
+            bfsPerformance.setText(ps.bfsPerformance() + "ms");
         });
 
         testAStar.setOnAction((event) -> {
-            aStarPerformance.setText(ps.aStarPerformance());
+            aStarPerformance.setText(ps.aStarPerformance() + "ms");
         });
 
         testJps.setOnAction((event) -> {
-            jpsPerformance.setText(ps.jpsPerformance());
+            jpsPerformance.setText(ps.jpsPerformance() + "ms");
         });
 
         stage.setScene(scene);

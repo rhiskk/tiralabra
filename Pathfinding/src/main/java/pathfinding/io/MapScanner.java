@@ -1,4 +1,4 @@
-package pathfinding.domain;
+package pathfinding.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;

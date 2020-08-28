@@ -1,4 +1,4 @@
-package pathfinding.domain;
+package pathfinding.datastructures;
 
 /**
  *

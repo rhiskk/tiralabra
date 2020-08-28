@@ -1,4 +1,7 @@
-package pathfinding.domain;
+package pathfinding.algorithms;
+
+import pathfinding.datastructures.MinHeap;
+import pathfinding.datastructures.Node;
 
 /**
  *
@@ -27,7 +30,7 @@ public class AStar {
      * @param y the y-coordinate of the node
      * @return the diagonal distance from given coordinates to the end point.
      */
-    private int heuristic(int y, int x) {
+    private double heuristic(int y, int x) {
         return Math.max(Math.abs(y - endPoint[0]), Math.abs(x - endPoint[1]));
     }
 

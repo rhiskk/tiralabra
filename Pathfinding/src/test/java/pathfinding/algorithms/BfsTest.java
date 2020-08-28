@@ -1,4 +1,4 @@
-package pathfinding.domain;
+package pathfinding.algorithms;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -8,9 +8,9 @@ import org.junit.Before;
  *
  * @author hiski
  */
-public class AStarTest {
+public class BfsTest {
 
-    AStar astr;
+    BFS bfs;
     char[][] map = {{'.', '.', '.', '.', '.'},
                     {'.', '@', '.', '.', '@'},
                     {'.', '@', '@', '@', '.'},
@@ -19,7 +19,7 @@ public class AStarTest {
 
     @Before
     public void setUp() {
-        astr = new AStar();
+        bfs = new BFS();
 
     }
 
@@ -27,29 +27,28 @@ public class AStarTest {
     public void shortestPathReturnsTheCorrectLengthWhenPathIsFound() {
         int[] start = {4, 4};
         int[] end = {1, 0};
-        assertTrue(4 + 2 * Math.sqrt(2) == astr.shortestPath(map, start, end));
+        
+        assertEquals(3 + 3 * Math.sqrt(2), bfs.shortestPath(map, start, end), 5);
     }
 
     @Test
     public void shortestPathReturnsMinusOneWhenPathIsNotFound() {
         int[] start = {0, 0};
         int[] end = {4, 0};
-        assertTrue(-1 == astr.shortestPath(map, start, end));
+        assertEquals(-1, bfs.shortestPath(map, start, end), 2);
     }
     
     @Test
     public void getPathReturnsTheCorrectPath() {
         int[] start = {4, 4};
         int[] end = {1, 0};
-        astr.shortestPath(map, start, end);
-        char[][] path = astr.getPath();
-        assertEquals('a', path[1][0]);
-        assertEquals('a', path[0][1]);
-        assertEquals('a', path[1][2]);
-        assertEquals('a', path[1][3]);
-        assertEquals('a', path[2][4]);
-        assertEquals('a', path[3][4]);
-        assertEquals('a', path[4][4]);
-        
+        bfs.shortestPath(map, start, end);
+        char[][] expected = {{'.', 'b', '.', '.', '.'},
+                             {'b', '@', 'b', 'b', '@'},
+                             {'.', '@', '@', '@', 'b'},
+                             {'@', '@', '.', '.', 'b'},
+                             {'.', '@', '.', '.', 'b'}};
+        assertArrayEquals(expected, bfs.getPath());
     }
+
 }

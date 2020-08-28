@@ -1,5 +1,5 @@
 
-package pathfinding.domain;
+package pathfinding.datastructures;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

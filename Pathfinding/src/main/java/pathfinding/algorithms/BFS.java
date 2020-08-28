@@ -1,6 +1,8 @@
-package pathfinding.domain;
+package pathfinding.algorithms;
 
-//import java.util.ArrayDeque;
+import pathfinding.datastructures.Node;
+import pathfinding.datastructures.Queue;
+
 /**
  *
  * Class contains bfs-algorithm

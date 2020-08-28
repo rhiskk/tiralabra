@@ -1,5 +1,7 @@
 package pathfinding.domain;
 
+import pathfinding.io.MapScanner;
+import pathfinding.algorithms.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.RoundingMode;
@@ -7,28 +9,28 @@ import java.text.DecimalFormat;
 
 /**
  *
- * @author hiski
+ * Class contains 
  */
 public class PathfindingService {
 
-    private MapScanner ms;
-    private PerformanceTest pt;
-    private BFS b;
-    private AStar a;
-    private JPS j;
+    private MapScanner mapScanner;
+    private PerformanceTest performanceTest;
+    private BFS bfs;
+    private AStar aStar;
+    private JPS jps;
     private char[][] map;
     private int[] start;
     private int[] end;
-    private DecimalFormat df;
+    private DecimalFormat decimalFormat;
 
     public PathfindingService() throws FileNotFoundException {
-        df = new DecimalFormat("#.###");
-        df.setRoundingMode(RoundingMode.CEILING);
-        ms = new MapScanner();
-        b = new BFS();
-        a = new AStar();
-        j = new JPS();
-        map = ms.scan(new File("./Berlin_0_1024.map"));
+        decimalFormat = new DecimalFormat("#.###");
+        decimalFormat.setRoundingMode(RoundingMode.CEILING);
+        mapScanner = new MapScanner();
+        bfs = new BFS();
+        aStar = new AStar();
+        jps = new JPS();
+        map = mapScanner.scan(new File("./Berlin_0_512.map"));
         start = new int[2];
         end = new int[2];
         setStart(0, 0);
@@ -46,42 +48,33 @@ public class PathfindingService {
     }
 
     public String bfsPathLength() {
-        double length = b.shortestPath(map, start, end);
-        if (length == -1) {
-            return "Path not found";
-        }
-        return "BFS length: " + df.format(length);
+        double length = bfs.shortestPath(map, start, end);
+        return decimalFormat.format(length);
     }
 
     public String aStarPathLength() {
-        double length = a.shortestPath(map, start, end);
-        if (length == -1) {
-            return "Path not found";
-        }
-        return "A* length: " + df.format(length);
+        double length = aStar.shortestPath(map, start, end);
+        return decimalFormat.format(length);
     }
 
     public String jpsPathLength() {
-        double length = j.shortestPath(map, start, end);
-        if (length == -1) {
-            return "Path not found";
-        }
-        return "JPS length: " + df.format(length);
+        double length = jps.shortestPath(map, start, end);
+        return decimalFormat.format(length);
     }
 
-    public String bfsPerformance() {
-        pt = new PerformanceTest(map, start, end);
-        return "BFS time: " + (pt.test(1)) + " ms";
+    public double bfsPerformance() {
+        performanceTest = new PerformanceTest(map, start, end);
+        return performanceTest.test(1);
     }
 
-    public String aStarPerformance() {
-        pt = new PerformanceTest(map, start, end);
-        return "A* time: " + (pt.test(2)) + " ms";
+    public double aStarPerformance() {
+        performanceTest = new PerformanceTest(map, start, end);
+        return performanceTest.test(2);
     }
     
-    public String jpsPerformance() {
-        pt = new PerformanceTest(map, start, end);
-        return "JPS* time: " + (pt.test(3)) + " ms";
+    public double jpsPerformance() {
+        performanceTest = new PerformanceTest(map, start, end);
+        return performanceTest.test(3);
     }
 
     public char[][] getMap() {
@@ -89,14 +82,14 @@ public class PathfindingService {
     }
 
     public char[][] getAPath() {
-        return a.getPath();
+        return aStar.getPath();
     }
 
     public char[][] getJPath() {
-        return j.getPath();
+        return jps.getPath();
     }
 
     public char[][] getBPath() {
-        return b.getPath();
+        return bfs.getPath();
     }
 }

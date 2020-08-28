@@ -1,4 +1,4 @@
-package pathfinding.domain;
+package pathfinding.datastructures;
 
 /**
  *
@@ -9,11 +9,11 @@ public class Node implements Comparable<Node> {
     private int y; //y-coordinate
     private int x; //x-coordinate
     private double g; //distance from start
-    private int h; //heuristic
+    private double h; //heuristic value
     private double f; //distance from start + heuristic
     private Node parent;
 
-    public Node(int y, int x, double g, int h) {
+    public Node(int y, int x, double g, double h) {
         this.y = y;
         this.x = x;
         this.g = g;
@@ -47,5 +47,9 @@ public class Node implements Comparable<Node> {
     
     public double getG() {
         return g;
+    }
+    
+    public double getH() {
+        return h;
     }
 }
