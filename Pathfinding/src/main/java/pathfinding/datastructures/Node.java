@@ -48,8 +48,4 @@ public class Node implements Comparable<Node> {
     public double getG() {
         return g;
     }
-    
-    public double getH() {
-        return h;
-    }
 }

@@ -20,7 +20,7 @@ public class JPS {
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-    {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
      * Heuristic function.
@@ -59,8 +59,7 @@ public class JPS {
         }
         if (search(start[0], start[1])) {
             return gGrid[end[0]][end[1]];
-        };
-
+        }
         return -1;
     }
 
@@ -177,7 +176,7 @@ public class JPS {
                         || valid(y + dy, x - 1) && !valid(y, x - 1)) {
                     return jumpPoint;
                 }
-            //horizontal forced neighbors
+                //horizontal forced neighbors
             } else {
                 if (valid(y + 1, x + dx) && !valid(y + 1, x)
                         || valid(y - 1, x + dx) && !valid(y - 1, x)) {
@@ -199,13 +198,11 @@ public class JPS {
         int[][] neighbors = new int[8][];
         int i = 0;
         Node parent = node.getParent();
-
         int y = node.getY();
         int x = node.getX();
 
         //if the node has a parent some neighbors can be ignored
         if (parent != null) {
-
             //direction
             int dy = (node.getY() - parent.getY())
                     / Math.max(Math.abs(node.getY() - parent.getY()), 1);
@@ -241,7 +238,7 @@ public class JPS {
                     if (!valid(y - 1, x)) {
                         neighbors[i++] = new int[]{y - 1, x + dx};
                     }
-                    //horizontal neighbors
+                //horizontal neighbors
                 } else {
                     if (valid(y + dy, x)) {
                         neighbors[i++] = new int[]{y + dy, x};
@@ -254,7 +251,6 @@ public class JPS {
                     }
                 }
             }
-
         } else {
             for (i = 0; i < direction.length; i++) {
                 int newY = y + direction[i][0];

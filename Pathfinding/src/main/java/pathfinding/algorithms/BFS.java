@@ -15,13 +15,13 @@ public class BFS {
     private int gridWidth;
     private double pathLength;
     private int[] endPoint;
-    private Queue Queue;
+    private Queue queue;
     private Node endNode;
     private char[][] path;
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-    {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
      * Returns the shortest path from the starting point to the ending point.
@@ -35,7 +35,7 @@ public class BFS {
         gridLength = map.length;
         gridWidth = map[0].length;
         int capacity = gridLength * gridWidth;
-        Queue = new Queue(capacity);
+        queue = new Queue(capacity);
         pathLength = 0;
         grid = map;
         visited = new boolean[gridLength][gridWidth];
@@ -46,22 +46,21 @@ public class BFS {
         }
         return -1;
     }
-    
-    
-     /**
+
+    /**
      * Constructs the found path and calculates its length.
      *
      */
     private void constructPath() {
         path = grid;
-            Node node = endNode;
-            while (node != null) {
-                path[node.getY()][node.getX()] = 'b';
-                pathLength += node.getG();
-                node = node.getParent();
-            }
+        Node node = endNode;
+        while (node != null) {
+            path[node.getY()][node.getX()] = 'b';
+            pathLength += node.getG();
+            node = node.getParent();
+        }
     }
-    
+
     /**
      * Processes the neighboring nodes.
      *
@@ -90,7 +89,7 @@ public class BFS {
 
             Node newNode = new Node(newY, newX, weight, 0);
             newNode.setParent(node);
-            Queue.add(newNode);
+            queue.add(newNode);
             visited[newY][newX] = true;
         }
     }
@@ -98,20 +97,20 @@ public class BFS {
     /**
      * Handles the search.
      *
-     * Takes the x and y coordinates of the starting point, creates a new node 
-     * and adds it to the queue. Marks the node as visited and calls the neighbor
-     * function.
+     * Takes the x and y coordinates of the starting point, creates a new node
+     * and adds it to the queue. Marks the node as visited and calls the
+     * neighbor function.
      *
      * @param y the y-coordinate of the starting point
      * @param x the x-coordinate of the starting point
      * @return true if the end point was reached, else false
      */
     private boolean search(int y, int x) {
-        Queue.add(new Node(y, x, 0, 0));
+        queue.add(new Node(y, x, 0, 0));
         visited[y][x] = true;
 
-        while (!Queue.isEmpty()) {
-            Node node = Queue.poll();
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
             if (node.getY() == endPoint[0] && node.getX() == endPoint[1]) {
                 endNode = node;
                 return true;
@@ -121,8 +120,7 @@ public class BFS {
         return false;
     }
 
-    
-     /**
+    /**
      * Returns the found path as an ASCII-grid.
      *
      * @return the found path as an ASCII-grid.

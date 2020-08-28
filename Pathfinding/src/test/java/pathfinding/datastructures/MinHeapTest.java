@@ -1,7 +1,8 @@
 
 package pathfinding.datastructures;
 
-import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -34,18 +35,20 @@ public class MinHeapTest {
     
     @Test
     public void nodesArePolledInTheCorrectOrder() {
-        Random r = new Random();
-        for (int i = 0; i < 100; i++) {
-            minH.add(new Node(1, 1, r.nextInt(100), r.nextInt(100)));
+        Double[] arr = new Double[100];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = Math.sqrt(i);
         }
-        boolean t = true;
+        Collections.shuffle(Arrays.asList(arr));
+        
+        for (int i = 0; i < arr.length; i++) {
+            minH.add(new Node(i, i, arr[i], arr[++i]));
+        }
+        
         while (!minH.isEmpty()) {
             Node p1 = minH.poll();
             Node p2 = minH.poll();
-            if (p1.compareTo(p2) == 1) {
-                t = false;
-            }
+            assertEquals(-1, p1.compareTo(p2));             
         }
-        assertTrue(t);
-    }   
+    }
 }

@@ -48,6 +48,7 @@
                     <excludes>
                         <exclude>pathfinding/ui/**/*</exclude>
                         <exclude>pathfinding/domain/PerformanceTest*</exclude> 
+                        <exclude>pathfinding/domain/PathfindingService*</exclude> 
                     </excludes>
                 </configuration>
                 <executions>
