@@ -21,10 +21,10 @@ public class BFS {
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+    {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
-     * Returns the shortest path from the starting point to the ending point.
+     * Returns the shortest path from the start point to the end point.
      *
      * @param map map as a grid
      * @param start starting point
@@ -40,6 +40,11 @@ public class BFS {
         grid = map;
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
+
+        if (map[start[0]][start[1]] == '@' || map[end[0]][end[1]] == '@') {
+            return -1;
+        }
+
         if (search(start[0], start[1])) {
             constructPath();
             return pathLength;
@@ -64,8 +69,8 @@ public class BFS {
     /**
      * Processes the neighboring nodes.
      *
-     * Takes the x and y coordinates of a node as parameters, adds all of its
-     * valid adjecent nodes to the queue, marks them as visited.
+     * Takes a node as a parameter, adds all of its valid adjecent nodes to the
+     * queue and marks them as visited.
      *
      * @param y the y-coordinate of the node whose neighbors are being processed
      * @param x the x-coordinate of the node whose neighbors are being processed
@@ -99,7 +104,7 @@ public class BFS {
      *
      * Takes the x and y coordinates of the starting point, creates a new node
      * and adds it to the queue. Marks the node as visited and calls the
-     * neighbor function.
+     * neighbors function.
      *
      * @param y the y-coordinate of the starting point
      * @param x the x-coordinate of the starting point

@@ -12,6 +12,13 @@ public class MapScanner {
 
     private Scanner scanner;
 
+    /**
+     * Reads a .map-file and returns an ASCII-grid representation of it
+     *
+     * @param map .map-file.
+     * @return map as an ASCII-grid.
+     * @throws java.io.FileNotFoundException
+     */
     public char[][] scan(File map) throws FileNotFoundException {
         try {
             this.scanner = new Scanner(map);
@@ -29,4 +36,12 @@ public class MapScanner {
         }
     }
 
+    /**
+     * Gets all the files from the ./maps folder and returns an array of them.
+     *
+     * @return array of the files in the ./maps folder.
+     */
+    public File[] getFiles() {
+        return new File("./maps/").listFiles((dir, name) -> !name.equals(".DS_Store"));
+    }
 }

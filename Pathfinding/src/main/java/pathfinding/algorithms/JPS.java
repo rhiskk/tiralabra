@@ -36,7 +36,7 @@ public class JPS {
     }
 
     /**
-     * Returns the shortest path from the starting point to the ending point.
+     * Returns the shortest path from the start point to the end point.
      *
      * @param map map as a grid
      * @param start starting point
@@ -51,7 +51,11 @@ public class JPS {
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
         heap = new MinHeap(gridLength * gridWidth);
-
+        
+        if (map[start[0]][start[1]] == '@' || map[end[0]][end[1]] == '@') {
+            return -1;
+        }
+        
         for (int i = 0; i < gridLength; i++) {
             for (int j = 0; j < gridWidth; j++) {
                 gGrid[i][j] = Integer.MAX_VALUE;
@@ -317,13 +321,7 @@ public class JPS {
      * @return true if coordinates are valid, else false
      */
     private boolean valid(int y, int x) {
-
-        if (y < 0 || x < 0 || y >= gridLength
-                || x >= gridWidth || grid[y][x] == '@') {
-
-            return false;
-        }
-
-        return true;
+        return !(y < 0 || x < 0 || y >= gridLength
+                || x >= gridWidth || grid[y][x] == '@');
     }
 }

@@ -13,13 +13,26 @@ public class PerformanceTest {
     char[][] map;
     int[] start;
     int[] end;
-
+    
+    
+     /**
+     *
+     * @param map map as an ASCII grid
+     * @param start coordinates of the start point
+     * @param end coordinates of the end point
+     */
     public PerformanceTest(char[][] map, int[] start, int[] end) {
         this.map = map;
         this.start = start;
         this.end = end;
     }
-
+    
+    
+    /**
+     * Runs algorithms several times and returns the average of the excecution times.
+     *
+     * @param algo 1 to test BFS, 2 for A* and 3 for JPS
+     */
     public long test(int algo) {
         long sum = 0;
         int runs = 8;
@@ -65,5 +78,4 @@ public class PerformanceTest {
         }       
         return Math.round((sum / (runs - 1)) / 1e6);
     }
-
 }

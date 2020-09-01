@@ -37,7 +37,7 @@ public class MapScannerTest {
                               {'.', '@', '@', '@', '.'},
                               {'@', '@', '.', '.', '.'},
                               {'.', '@', '.', '.', '.'}};
-        assertArrayEquals(expected, mapScanner.scan(new File("./maps/test.map")));
+        assertArrayEquals(expected, mapScanner.scan(new File("./test.map")));
     }
     
 }

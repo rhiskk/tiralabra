@@ -4,12 +4,10 @@ import pathfinding.io.MapScanner;
 import pathfinding.algorithms.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 /**
  *
- * Class contains 
+ * Class contains
  */
 public class PathfindingService {
 
@@ -21,45 +19,55 @@ public class PathfindingService {
     private char[][] map;
     private int[] start;
     private int[] end;
-    private DecimalFormat decimalFormat;
+    private File[] files;
 
     public PathfindingService() throws FileNotFoundException {
-        decimalFormat = new DecimalFormat("#.###");
-        decimalFormat.setRoundingMode(RoundingMode.CEILING);
+
         mapScanner = new MapScanner();
         bfs = new BFS();
         aStar = new AStar();
         jps = new JPS();
         map = mapScanner.scan(new File("./maps/Berlin_0_512.map"));
+        files = mapScanner.getFiles();
         start = new int[2];
         end = new int[2];
         setStart(0, 0);
         setEnd(0, 0);
+
     }
 
+    /**
+     * Sets the start point.
+     *
+     * @param y the y-coordinate of the start point.
+     * @param x the x-coordinate of the start point.
+     */
     public void setStart(int y, int x) {
         this.start[0] = y;
         this.start[1] = x;
     }
 
+    /**
+     * Sets the end point.
+     *
+     * @param y the y-coordinate of the end point.
+     * @param x the x-coordinate of the end point.
+     */
     public void setEnd(int y, int x) {
         this.end[0] = y;
         this.end[1] = x;
     }
 
-    public String bfsPathLength() {
-        double length = bfs.shortestPath(map, start, end);
-        return decimalFormat.format(length);
+    public double bfsPathLength() {
+        return bfs.shortestPath(map, start, end);
     }
 
-    public String aStarPathLength() {
-        double length = aStar.shortestPath(map, start, end);
-        return decimalFormat.format(length);
+    public double aStarPathLength() {
+        return aStar.shortestPath(map, start, end);
     }
 
-    public String jpsPathLength() {
-        double length = jps.shortestPath(map, start, end);
-        return decimalFormat.format(length);
+    public double jpsPathLength() {
+        return jps.shortestPath(map, start, end);
     }
 
     public double bfsPerformance() {
@@ -71,14 +79,22 @@ public class PathfindingService {
         performanceTest = new PerformanceTest(map, start, end);
         return performanceTest.test(2);
     }
-    
+
     public double jpsPerformance() {
         performanceTest = new PerformanceTest(map, start, end);
         return performanceTest.test(3);
     }
 
+    public File[] getFiles() {
+        return files;
+    }
+
     public char[][] getMap() {
         return map;
+    }
+
+    public void setMap(char[][] map) {
+        this.map = map;
     }
 
     public char[][] getAPath() {
