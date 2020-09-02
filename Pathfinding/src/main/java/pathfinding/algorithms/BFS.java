@@ -18,6 +18,8 @@ public class BFS {
     private Queue queue;
     private Node endNode;
     private char[][] path;
+    //keeps count of the most time consuming operations performed
+    private int operations;
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
@@ -40,6 +42,7 @@ public class BFS {
         grid = map;
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
+        operations = 0;
 
         if (map[start[0]][start[1]] == '@' || map[end[0]][end[1]] == '@') {
             return -1;
@@ -95,6 +98,7 @@ public class BFS {
             Node newNode = new Node(newY, newX, weight, 0);
             newNode.setParent(node);
             queue.add(newNode);
+            operations++;
             visited[newY][newX] = true;
         }
     }
@@ -112,10 +116,12 @@ public class BFS {
      */
     private boolean search(int y, int x) {
         queue.add(new Node(y, x, 0, 0));
+        operations++;
         visited[y][x] = true;
 
         while (!queue.isEmpty()) {
             Node node = queue.poll();
+            operations++;
             if (node.getY() == endPoint[0] && node.getX() == endPoint[1]) {
                 endNode = node;
                 return true;
@@ -132,6 +138,16 @@ public class BFS {
      */
     public char[][] getPath() {
         return path;
+    }
+    
+    /**
+     * Returns the number of the most time consuming operations performed.
+     * The most time consuming operation is adding and pollling from the queue.
+     *
+     * @return the number of times nodes are added to the quque or polled from it.
+     */
+    public int getOperations() {
+        return operations;
     }
 
 }

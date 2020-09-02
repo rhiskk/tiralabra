@@ -18,6 +18,9 @@ public class AStar {
     private MinHeap heap;
     private double pathLength;
     private Node endNode;
+    //keeps count of the most time consuming operations performed 
+    private int operations;
+    
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
@@ -51,6 +54,7 @@ public class AStar {
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
         heap = new MinHeap(gridLength * gridWidth);
+        operations = 0;
         
         if (map[start[0]][start[1]] == '@' || map[end[0]][end[1]] == '@') {
             return -1;
@@ -99,6 +103,7 @@ public class AStar {
                         heuristic(newY, newX));
                 newNode.setParent(n);
                 heap.add(newNode);
+                operations++;
             }
         }
     }
@@ -113,9 +118,11 @@ public class AStar {
     private boolean search(int y, int x) {
         gGrid[y][x] = 0;
         heap.add(new Node(y, x, 0, heuristic(y, x)));
+        operations++;
 
         while (!heap.isEmpty()) {
             Node n = heap.poll();
+            operations++;
             int newY = n.getY();
             int newX = n.getX();
             if (!visited[newY][newX]) {
@@ -145,5 +152,15 @@ public class AStar {
             node = node.getParent();
         }
         return path;
+    }
+    
+    /**
+     * Returns the number of the most time consuming operations performed.
+     * The most time consuming operation is adding to the heap.
+     *
+     * @return the the number of nodes added to the heap.
+     */
+    public int getOperations() {
+        return operations;
     }
 }

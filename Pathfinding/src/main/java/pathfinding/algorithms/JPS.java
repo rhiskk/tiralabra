@@ -17,6 +17,8 @@ public class JPS {
     private int[] endPoint;
     private MinHeap heap;
     private Node endNode;
+    //keeps count of the most time consuming operations performed 
+    private int operations;
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
@@ -51,6 +53,7 @@ public class JPS {
         visited = new boolean[gridLength][gridWidth];
         endPoint = end;
         heap = new MinHeap(gridLength * gridWidth);
+        operations = 0;
         
         if (map[start[0]][start[1]] == '@' || map[end[0]][end[1]] == '@') {
             return -1;
@@ -128,6 +131,7 @@ public class JPS {
                     Node newNode = new Node(jy, jx, newG, heuristic(jy, jx));
                     newNode.setParent(node);
                     heap.add(newNode);
+                    operations++;
                 }
             }
         }
@@ -323,5 +327,15 @@ public class JPS {
     private boolean valid(int y, int x) {
         return !(y < 0 || x < 0 || y >= gridLength
                 || x >= gridWidth || grid[y][x] == '@');
+    }
+    
+    /**
+     * Returns the number of the most time consuming operations performed.
+     * The most time consuming operation is adding to the heap.
+     *
+     * @return the the number of nodes added to the heap.
+     */
+    public int getOperations() {
+        return operations;
     }
 }

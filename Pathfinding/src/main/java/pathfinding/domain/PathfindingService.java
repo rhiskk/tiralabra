@@ -108,4 +108,16 @@ public class PathfindingService {
     public char[][] getBPath() {
         return bfs.getPath();
     }
+    
+    public int bOperations() {
+        return bfs.getOperations();
+    }
+    
+    public int aOperations() {
+        return aStar.getOperations();
+    }
+    
+    public int jOperations() {
+        return jps.getOperations();
+    }
 }

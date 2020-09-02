@@ -64,19 +64,39 @@ public class PathfindingUi extends Application {
         mapDrawer = mapCanvas.getGraphicsContext2D();
         
         //labels
-        Label bfsLength = new Label("BFS length: ");
+        Label bfsLabel = new Label("BFS: ");
+        bfsLabel.setTextFill(Color.BLUE);
+        bfsLabel.setPrefWidth(60);
+        Label aStarLabel = new Label("A*: ");
+        aStarLabel.setPrefWidth(60);
+        aStarLabel.setTextFill(Color.RED);
+        Label jpsLabel = new Label("JPS: ");
+        jpsLabel.setPrefWidth(60);
+        jpsLabel.setTextFill(Color.GREEN);
+        
+        Label bfsLength = new Label("");
         bfsLength.setPrefWidth(120);
-        Label aStarLength = new Label("A* length: ");
+        Label aStarLength = new Label("");
         aStarLength.setPrefWidth(120);
-        Label jpsLength = new Label("JPS length: ");
+        Label jpsLength = new Label("");
         jpsLength.setPrefWidth(120);
         
-        Label bfsPerformance = new Label("BFS time: ");
-        bfsPerformance.setPrefWidth(100);
-        Label aStarPerformance = new Label("A* time: ");
-        aStarPerformance.setPrefWidth(100);
-        Label jpsPerformance = new Label("JPS time: ");
-        jpsPerformance.setPrefWidth(100);
+        Label bfsOperations = new Label("");
+        bfsOperations.setPrefWidth(120);
+        Label aStarOperations = new Label("");
+        aStarOperations.setPrefWidth(120);
+        Label jpsOperations = new Label("");
+        jpsOperations.setPrefWidth(120);
+        
+        Label bfsTime = new Label("");
+        bfsTime.setPrefWidth(100);
+        Label aStarTime = new Label("");
+        aStarTime.setPrefWidth(100);
+        Label jpsTime = new Label("");
+        jpsTime.setPrefWidth(100);
+        
+        
+        
         Label mapsLabel = new Label("Select map: ");
         
         //text fields
@@ -90,27 +110,29 @@ public class PathfindingUi extends Application {
         endY.setPrefWidth(100);
         
         //buttons
-        Button pathBfs = new Button("BFS path");
+        Button pathBfs = new Button("Path");
         pathBfs.setPrefWidth(70);
-        Button pathAStar = new Button("A* path");
+        Button pathAStar = new Button("Path");
         pathAStar.setPrefWidth(70);
-        Button pathJps = new Button("JPS path");
+        Button pathJps = new Button("Path");
         pathJps.setPrefWidth(70);
-        Button testBfs = new Button("Time BFS");
-        testBfs.setPrefWidth(70);
-        Button testAStar = new Button("Time A*");
-        testAStar.setPrefWidth(70);
-        Button testJps = new Button("Time JPS");
-        testJps.setPrefWidth(70);
+        
+        Button testBfs = new Button("Performance");
+        testBfs.setPrefWidth(120);
+        Button testAStar = new Button("Performance");
+        testAStar.setPrefWidth(120);
+        Button testJps = new Button("Performance");
+        testJps.setPrefWidth(120);
         Button clear = new Button("Clear paths");
+        clear.setPrefWidth(200);
         
         //radio buttons
         ToggleGroup group = new ToggleGroup();
         RadioButton setStart = new RadioButton("Start");
-        setStart.setStyle("-fx-text-fill: red;");
+        setStart.setStyle("-fx-text-fill: green;");
         setStart.setPrefWidth(60);
         RadioButton setEnd = new RadioButton("End");
-        setEnd.setStyle("-fx-text-fill: blue;");
+        setEnd.setStyle("-fx-text-fill: red;");
         setEnd.setPrefWidth(60);
         
         setStart.setToggleGroup(group);
@@ -136,23 +158,32 @@ public class PathfindingUi extends Application {
         endBox.getChildren().addAll(setEnd, endX, endY);
         endBox.setSpacing(10);
         
+        VBox bfsPerformanceBox = new VBox();
+        bfsPerformanceBox.getChildren().addAll(bfsTime, bfsOperations);
+        
         HBox bfsBox = new HBox();
-        bfsBox.getChildren().addAll(pathBfs, bfsLength, testBfs, bfsPerformance);
+        bfsBox.getChildren().addAll(bfsLabel, pathBfs, bfsLength, testBfs, bfsPerformanceBox);
         bfsBox.setSpacing(10);
         
+        VBox aStarPerformanceBox = new VBox();
+        aStarPerformanceBox.getChildren().addAll(aStarTime, aStarOperations);
+        
         HBox aStarBox = new HBox();
-        aStarBox.getChildren().addAll(pathAStar, aStarLength, testAStar, aStarPerformance);
+        aStarBox.getChildren().addAll(aStarLabel, pathAStar, aStarLength, testAStar, aStarPerformanceBox);
         aStarBox.setSpacing(10);
         
+        VBox jpsPerformanceBox = new VBox();
+        jpsPerformanceBox.getChildren().addAll(jpsTime, jpsOperations);
+        
         HBox jpsBox = new HBox();
-        jpsBox.getChildren().addAll(pathJps, jpsLength, testJps, jpsPerformance);
+        jpsBox.getChildren().addAll(jpsLabel, pathJps, jpsLength, testJps, jpsPerformanceBox);
         jpsBox.setSpacing(10);
         
         VBox box = new VBox();
         box.getChildren().addAll(startBox, endBox, bfsBox, aStarBox, jpsBox, clear);
-        box.setSpacing(8);
+        box.setSpacing(20);
         box.setPadding(new Insets(10, 10, 10, 30));
-        box.setPrefWidth(400);
+        box.setPrefWidth(420);
         
         HBox mapBox = new HBox(mapsLabel, maps);  
         Pane mapPane = new Pane(mapCanvas);
@@ -160,11 +191,24 @@ public class PathfindingUi extends Application {
         bPane.setTop(mapBox);
         bPane.setLeft(mapPane);
         bPane.setCenter(box);
-        bPane.setPrefWidth(1000);
+        bPane.setPrefWidth(1100);
         bPane.setPadding(new Insets(10, 10, 10, 10));
         
         maps.getSelectionModel().selectedIndexProperty().addListener(( ov, value, new_value) -> {
             setMap(files[new_value.intValue()]);
+            
+            bfsLength.setText("");
+            bfsTime.setText("");
+            bfsOperations.setText("");
+            
+            aStarLength.setText("");
+            aStarTime.setText("");
+            aStarOperations.setText("");
+            
+            jpsLength.setText("");
+            jpsTime.setText("");
+            jpsOperations.setText("");
+            
             drawMap();
         });
         
@@ -184,7 +228,7 @@ public class PathfindingUi extends Application {
                             Integer.valueOf(startY.getText()) * mplier, 3, 3);
                     startX.setText(String.valueOf(i));
                     startY.setText(String.valueOf(j));           
-                    mapDrawer.setFill(Color.RED);
+                    mapDrawer.setFill(Color.GREEN);
                     mapDrawer.fillRect(i * mplier, j * mplier, 3, 3);
                     setStart.setSelected(false);
                     setEnd.setSelected(true);
@@ -196,7 +240,7 @@ public class PathfindingUi extends Application {
                             Integer.valueOf(endY.getText()) * mplier, 3, 3);
                     endX.setText(String.valueOf((int) (event.getX() / mplier)));
                     endY.setText(String.valueOf((int) (event.getY() / mplier)));
-                    mapDrawer.setFill(Color.BLUE);
+                    mapDrawer.setFill(Color.RED);
                     mapDrawer.fillRect(i * mplier, j * mplier, 3, 3);
                     setEnd.setSelected(false);
                     setStart.setSelected(true);
@@ -214,8 +258,7 @@ public class PathfindingUi extends Application {
                 bfsLength.setText("Path not found");
                 return;
             }
-            bfsLength.setText("BFS length: " + decimalFormat.format(length));
-            bfsLength.setTextFill(Color.BLUE);
+            bfsLength.setText("Length: " + decimalFormat.format(length));
             char[][] path = ps.getBPath();
             drawPath(path);
         });
@@ -230,8 +273,7 @@ public class PathfindingUi extends Application {
                 aStarLength.setText("Path not found");
                 return;
             }
-            aStarLength.setText("A* length: " + decimalFormat.format(length));
-            aStarLength.setTextFill(Color.RED);
+            aStarLength.setText("Length: " + decimalFormat.format(length));
             char[][] path = ps.getAPath();
             drawPath(path);
         });
@@ -246,23 +288,25 @@ public class PathfindingUi extends Application {
                 jpsLength.setText("Path not found");
                 return;
             }
-            jpsLength.setText("JPS length: " + decimalFormat.format(length));
-            jpsLength.setTextFill(Color.GREEN);
+            jpsLength.setText("Length: " + decimalFormat.format(length));
             char[][] path = ps.getJPath();
             drawPath(path);
 
         });
 
         testBfs.setOnAction((event) -> {
-            bfsPerformance.setText("BFS time: " + (int) ps.bfsPerformance() + " ms");
+            bfsTime.setText("Time: " + (int) ps.bfsPerformance() + " ms");
+            bfsOperations.setText("Operations: " + ps.bOperations());
         });
 
         testAStar.setOnAction((event) -> {
-            aStarPerformance.setText("A* time: " + (int) ps.aStarPerformance() + " ms");
+            aStarTime.setText("Time: " + (int) ps.aStarPerformance() + " ms");
+            aStarOperations.setText("Operations: " + ps.aOperations());
         });
 
         testJps.setOnAction((event) -> {
-            jpsPerformance.setText("JPS time: " + (int) ps.jpsPerformance() + " ms");
+            jpsTime.setText("Time: " + (int) ps.jpsPerformance() + " ms");
+            jpsOperations.setText("Operations: " + ps.jOperations());
         });
              
         Scene scene = new Scene(bPane);
