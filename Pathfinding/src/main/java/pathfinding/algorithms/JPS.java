@@ -21,8 +21,8 @@ public class JPS {
     private int operations;
 
     //possible directions
-    private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+    private final int[][] direction = {{-1, -1}, {-1, 1}, {1, 1}, {1, -1}, 
+                                       {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     /**
      * Heuristic function.
@@ -80,9 +80,11 @@ public class JPS {
     private boolean search(int y, int x) {
         gGrid[y][x] = 0;
         heap.add(new Node(y, x, 0, heuristic(y, x)));
-
+        operations++;
+        
         while (!heap.isEmpty()) {
             Node n = heap.poll();
+            operations++;
             int newY = n.getY();
             int newX = n.getX();
             if (!visited[newY][newX]) {
@@ -119,7 +121,7 @@ public class JPS {
 
                 int jy = jumpPoint[0];
                 int jx = jumpPoint[1];
-
+                
                 if (visited[jy][jx]) {
                     continue;
                 }
@@ -264,6 +266,7 @@ public class JPS {
                 int newY = y + direction[i][0];
                 int newX = x + direction[i][1];
                 if (valid(newY, newX)) {
+                    
                     neighbors[i] = new int[]{newY, newX};
                 }
             }
@@ -331,9 +334,9 @@ public class JPS {
     
     /**
      * Returns the number of the most time consuming operations performed.
-     * The most time consuming operation is adding to the heap.
+     * The most time consuming operation is adding to the heap and polling from it.
      *
-     * @return the the number of nodes added to the heap.
+     * @return the the number of nodes added to the heap and polled from it.
      */
     public int getOperations() {
         return operations;

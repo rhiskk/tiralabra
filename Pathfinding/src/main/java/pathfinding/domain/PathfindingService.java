@@ -97,27 +97,27 @@ public class PathfindingService {
         this.map = map;
     }
 
-    public char[][] getAPath() {
+    public char[][] getAStarPath() {
         return aStar.getPath();
     }
 
-    public char[][] getJPath() {
+    public char[][] getJpsPath() {
         return jps.getPath();
     }
 
-    public char[][] getBPath() {
+    public char[][] getBfsPath() {
         return bfs.getPath();
     }
     
-    public int bOperations() {
+    public int bfsOperations() {
         return bfs.getOperations();
     }
     
-    public int aOperations() {
+    public int aStarOperations() {
         return aStar.getOperations();
     }
     
-    public int jOperations() {
+    public int jpsOperations() {
         return jps.getOperations();
     }
 }

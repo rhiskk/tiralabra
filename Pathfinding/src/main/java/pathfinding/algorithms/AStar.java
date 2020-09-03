@@ -23,18 +23,20 @@ public class AStar {
     
 
     //possible directions
-    private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+    private final int[][] direction = {{-1, -1}, {-1, 1}, {1, 1}, {1, -1},
+                                       {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     /**
      * Heuristic function.
      *
      * @param x yhe x-coordinate of the node
      * @param y the y-coordinate of the node
-     * @return the diagonal distance from given coordinates to the end point.
+     * @return the euclidean distance from given coordinates to the end point.
      */
     private double heuristic(int y, int x) {
-        return Math.max(Math.abs(y - endPoint[0]), Math.abs(x - endPoint[1]));
+        int yd = y - endPoint[0];
+        int xd = x - endPoint[1];
+        return Math.sqrt(yd * yd + xd * xd);
     }
 
     /**
@@ -83,7 +85,7 @@ public class AStar {
     private void neighbors(Node n) {
         for (int i = 0; i < 8; i++) {
             double weight = 1;
-            if (i > 3) {
+            if (i < 4) {
                 weight = Math.sqrt(2);
             }
             int y = n.getY();
@@ -156,9 +158,9 @@ public class AStar {
     
     /**
      * Returns the number of the most time consuming operations performed.
-     * The most time consuming operation is adding to the heap.
+     * The most time consuming operation is adding to the heap and polling from it.
      *
-     * @return the the number of nodes added to the heap.
+     * @return the the number of nodes added to the heap and polled from it.
      */
     public int getOperations() {
         return operations;

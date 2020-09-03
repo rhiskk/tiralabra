@@ -26,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 /**
  * GUI.
@@ -64,34 +65,47 @@ public class PathfindingUi extends Application {
         mapDrawer = mapCanvas.getGraphicsContext2D();
         
         //labels
-        Label bfsLabel = new Label("BFS: ");
+        Font font = new Font(18);
+        
+        Label bfsLabel = new Label("BFS : ");
         bfsLabel.setTextFill(Color.BLUE);
         bfsLabel.setPrefWidth(60);
-        Label aStarLabel = new Label("A*: ");
+        bfsLabel.setFont(font);
+        
+        Label aStarLabel = new Label("A* : ");
         aStarLabel.setPrefWidth(60);
         aStarLabel.setTextFill(Color.RED);
-        Label jpsLabel = new Label("JPS: ");
+        aStarLabel.setFont(font);
+        
+        Label jpsLabel = new Label("JPS : ");
         jpsLabel.setPrefWidth(60);
         jpsLabel.setTextFill(Color.GREEN);
+        jpsLabel.setFont(font);
         
         Label bfsLength = new Label("");
         bfsLength.setPrefWidth(120);
+        
         Label aStarLength = new Label("");
         aStarLength.setPrefWidth(120);
+        
         Label jpsLength = new Label("");
         jpsLength.setPrefWidth(120);
         
         Label bfsOperations = new Label("");
         bfsOperations.setPrefWidth(120);
+        
         Label aStarOperations = new Label("");
         aStarOperations.setPrefWidth(120);
+        
         Label jpsOperations = new Label("");
         jpsOperations.setPrefWidth(120);
         
         Label bfsTime = new Label("");
         bfsTime.setPrefWidth(100);
+        
         Label aStarTime = new Label("");
         aStarTime.setPrefWidth(100);
+        
         Label jpsTime = new Label("");
         jpsTime.setPrefWidth(100);
         
@@ -214,6 +228,19 @@ public class PathfindingUi extends Application {
         
         clear.setOnAction((event) -> {
             setMap((File) maps.getValue());
+            
+            bfsLength.setText("");
+            bfsTime.setText("");
+            bfsOperations.setText("");
+            
+            aStarLength.setText("");
+            aStarTime.setText("");
+            aStarOperations.setText("");
+            
+            jpsLength.setText("");
+            jpsTime.setText("");
+            jpsOperations.setText("");
+            
             drawMap();
         });
         
@@ -259,7 +286,7 @@ public class PathfindingUi extends Application {
                 return;
             }
             bfsLength.setText("Length: " + decimalFormat.format(length));
-            char[][] path = ps.getBPath();
+            char[][] path = ps.getBfsPath();
             drawPath(path);
         });
 
@@ -274,7 +301,7 @@ public class PathfindingUi extends Application {
                 return;
             }
             aStarLength.setText("Length: " + decimalFormat.format(length));
-            char[][] path = ps.getAPath();
+            char[][] path = ps.getAStarPath();
             drawPath(path);
         });
 
@@ -289,24 +316,24 @@ public class PathfindingUi extends Application {
                 return;
             }
             jpsLength.setText("Length: " + decimalFormat.format(length));
-            char[][] path = ps.getJPath();
+            char[][] path = ps.getJpsPath();
             drawPath(path);
 
         });
 
         testBfs.setOnAction((event) -> {
             bfsTime.setText("Time: " + (int) ps.bfsPerformance() + " ms");
-            bfsOperations.setText("Operations: " + ps.bOperations());
+            bfsOperations.setText("Operations: " + ps.bfsOperations());
         });
 
         testAStar.setOnAction((event) -> {
             aStarTime.setText("Time: " + (int) ps.aStarPerformance() + " ms");
-            aStarOperations.setText("Operations: " + ps.aOperations());
+            aStarOperations.setText("Operations: " + ps.aStarOperations());
         });
 
         testJps.setOnAction((event) -> {
             jpsTime.setText("Time: " + (int) ps.jpsPerformance() + " ms");
-            jpsOperations.setText("Operations: " + ps.jOperations());
+            jpsOperations.setText("Operations: " + ps.jpsOperations());
         });
              
         Scene scene = new Scene(bPane);
@@ -334,14 +361,15 @@ public class PathfindingUi extends Application {
     */
     private void drawMap() {
         mapDrawer.clearRect(0, 0, 512, 512);
+        double size = Math.max(1 * mplier, 1);
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[0].length; j++) {
                 if (map[j][i] == '@') {
                     mapDrawer.setFill(Color.BLACK);
-                    mapDrawer.fillRect(i * mplier, j * mplier, 1 * mplier, 1 * mplier);
+                    mapDrawer.fillRect(i * mplier, j * mplier, size, size);
                 } else {
                     mapDrawer.setFill(Color.WHITE);
-                    mapDrawer.fillRect(i * mplier, j * mplier, 1 * mplier, 1 * mplier);
+                    mapDrawer.fillRect(i * mplier, j * mplier, size, size);
                 }
             }
         }
@@ -385,7 +413,7 @@ public class PathfindingUi extends Application {
         if (path == null) {
             return;
         }
-        double size = 2 * mplier;
+        double size = Math.max(2 * mplier, 2);
         for (int i = 0; i < path.length; i++) {
             for (int j = 0; j < path[0].length; j++) {
                 switch (path[j][i]) {

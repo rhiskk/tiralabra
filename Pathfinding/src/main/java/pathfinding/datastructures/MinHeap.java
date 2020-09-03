@@ -8,7 +8,6 @@ public class MinHeap {
 
     private Node[] heap;
     private int size;
-    private int maxSize;
 
     /**
      *
@@ -16,7 +15,6 @@ public class MinHeap {
      */
     public MinHeap(int max) {
         this.heap = new Node[max + 1];
-        this.maxSize = max;
         this.size = 0;
         heap[0] = new Node(-1, -1, -1, -1);
     }
@@ -36,7 +34,7 @@ public class MinHeap {
      * @return the location of the left child of the node.
      */
     private int left(int pos) {
-        return (2 * pos);
+        return 2 * pos;
     }
 
     /**
@@ -45,7 +43,7 @@ public class MinHeap {
      * @return the location of the right child of the node.
      */
     private int right(int pos) {
-        return (2 * pos) + 1;
+        return 2 * pos + 1;
     }
 
     /**
@@ -55,10 +53,7 @@ public class MinHeap {
      * @return true if the node is a leaf, else false.
      */
     private boolean leaf(int pos) {
-        if (pos >= (size / 2) && pos <= size) {
-            return true;
-        }
-        return false;
+        return pos > size / 2 && pos <= size;
     }
 
     /**
@@ -130,5 +125,4 @@ public class MinHeap {
     public boolean isEmpty() {
         return size == 0;
     }
-
 }

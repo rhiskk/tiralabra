@@ -29,7 +29,15 @@ public class AStarTest {
         int[] end = {1, 0};
         assertEquals(3 + 3 * Math.sqrt(2), astr.shortestPath(map, start, end), 5);
     }
-
+    
+    @Test
+    public void getOperationsReturnsTheCorrectAmount() {
+        int[] start = {4, 4};
+        int[] end = {1, 0};
+        astr.shortestPath(map, start, end);
+        assertEquals(31, astr.getOperations());
+    }
+    
     @Test
     public void shortestPathReturnsMinusOneWhenPathIsNotFound() {
         int[] start = {0, 0};

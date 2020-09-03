@@ -31,13 +31,18 @@ public class MapScannerTest {
     }
     
     @Test
+    public void getFilesReturnsCorrectAmountOfFiles() {
+        assertEquals(14, mapScanner.getFiles().length);
+    }
+    
+    @Test
     public void scanReturnsCorrectGridWhenFileIsFound() throws FileNotFoundException {
          char[][] expected = {{'.', '.', '.', '.', '.'},
                               {'.', '@', '.', '.', '@'},
                               {'.', '@', '@', '@', '.'},
                               {'@', '@', '.', '.', '.'},
                               {'.', '@', '.', '.', '.'}};
-        assertArrayEquals(expected, mapScanner.scan(new File("./test.map")));
+        assertArrayEquals(expected, mapScanner.scan(new File("./testmaps/test.map")));
     }
     
 }

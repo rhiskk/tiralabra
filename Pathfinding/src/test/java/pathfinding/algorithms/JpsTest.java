@@ -40,7 +40,14 @@ public class JpsTest {
         int[] end = {4, 0};
         assertEquals(-1, jps.shortestPath(map, start, end), 2);
     }
-
+    
+    @Test
+    public void getOperationsReturnsTheCorrectAmount() {
+        int[] start = {4, 4};
+        int[] end = {1, 0};
+        jps.shortestPath(map, start, end);
+        assertEquals(12, jps.getOperations());
+    }
     
     @Test
     public void getPathReturnsTheCorrectPath() {

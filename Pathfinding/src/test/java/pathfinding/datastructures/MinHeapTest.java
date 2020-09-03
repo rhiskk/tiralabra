@@ -18,8 +18,7 @@ public class MinHeapTest {
     
     @Before
     public void setUp() {
-        minH = new MinHeap(100);
-        testNodes = new Node[100];
+        minH = new MinHeap(1024);
     }
     
     @Test
@@ -35,7 +34,7 @@ public class MinHeapTest {
     
     @Test
     public void nodesArePolledInTheCorrectOrder() {
-        Double[] arr = new Double[100];
+        Double[] arr = new Double[1024];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = Math.sqrt(i);
         }

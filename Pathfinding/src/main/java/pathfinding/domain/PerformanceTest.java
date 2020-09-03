@@ -32,6 +32,7 @@ public class PerformanceTest {
      * Runs algorithms several times and returns the average of the excecution times.
      *
      * @param algo 1 to test BFS, 2 for A* and 3 for JPS
+     * @return the average of the test run times.
      */
     public long test(int algo) {
         long sum = 0;

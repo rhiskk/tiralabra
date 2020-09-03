@@ -30,7 +30,15 @@ public class BfsTest {
         
         assertEquals(3 + 3 * Math.sqrt(2), bfs.shortestPath(map, start, end), 5);
     }
-
+    
+    @Test
+    public void getOperationsReturnsTheCorrectAmount() {
+        int[] start = {4, 4};
+        int[] end = {1, 0};
+        bfs.shortestPath(map, start, end);
+        assertEquals(30, bfs.getOperations());
+    }
+    
     @Test
     public void shortestPathReturnsMinusOneWhenPathIsNotFound() {
         int[] start = {0, 0};
