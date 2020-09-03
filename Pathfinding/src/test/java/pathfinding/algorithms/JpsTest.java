@@ -28,6 +28,13 @@ public class JpsTest {
     }
     
     @Test
+    public void shorestPathReturnsMinusOneIfGivenBlockedCoordinates() {
+        int[] start = {3, 0};
+        int[] end = {1, 1};
+        assertEquals(-1, jps.shortestPath(map, start, end), 2);
+    }
+    
+    @Test
     public void shortestPathReturnsTheCorrectLengthWhenPathIsFound() {
         int[] start = {4, 4};
         int[] end = {1, 0};

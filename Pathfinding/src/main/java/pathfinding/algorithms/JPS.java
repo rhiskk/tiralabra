@@ -21,7 +21,7 @@ public class JPS {
     private int operations;
 
     //possible directions
-    private final int[][] direction = {{-1, -1}, {-1, 1}, {1, 1}, {1, -1}, 
+    private final int[][] direction = {{-1, -1}, {-1, 1}, {1, 1}, {1, -1},
                                        {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     /**
@@ -126,8 +126,8 @@ public class JPS {
                     continue;
                 }
                 //distance from start to the jump point
-                double newG = Math.sqrt(Math.abs(y - jy) * Math.abs(y - jy)
-                        + Math.abs(x - jx) * Math.abs(x - jx)) + node.getG();
+                double newG = Math.sqrt(abs(y - jy) * abs(y - jy)
+                        + abs(x - jx) * abs(x - jx)) + node.getG();
                 if (newG < gGrid[jy][jx]) {
                     gGrid[jy][jx] = newG;
                     Node newNode = new Node(jy, jx, newG, heuristic(jy, jx));
@@ -215,9 +215,9 @@ public class JPS {
         if (parent != null) {
             //direction
             int dy = (node.getY() - parent.getY())
-                    / Math.max(Math.abs(node.getY() - parent.getY()), 1);
+                    / max(abs(node.getY() - parent.getY()), 1);
             int dx = (node.getX() - parent.getX())
-                    / Math.max(Math.abs(node.getX() - parent.getX()), 1);
+                    / max(abs(node.getX() - parent.getX()), 1);
 
             //diagonal neighbors
             if (dy != 0 && dx != 0) {
@@ -330,6 +330,14 @@ public class JPS {
     private boolean valid(int y, int x) {
         return !(y < 0 || x < 0 || y >= gridLength
                 || x >= gridWidth || grid[y][x] == '@');
+    }
+    
+    private int abs(int n) {
+        return n > 0 ? n : -n;
+    }
+    
+    private int max(int a, int b) {
+        return a > b ? a : b;
     }
     
     /**

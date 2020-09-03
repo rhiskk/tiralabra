@@ -24,7 +24,7 @@ public class Queue {
 
     /**
      *
-     * Adds an int value at the back of the queue.
+     * Adds a node in the back of the queue.
      *
      * @param node int value that is added to the queue.
      */
@@ -36,7 +36,7 @@ public class Queue {
 
     /**
      *
-     * Removes an int value from the front of the queue.
+     * Removes a node from the front of the queue and returns it.
      *
      * @return int value that is removed from the queue.
      */

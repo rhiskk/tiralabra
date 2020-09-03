@@ -32,7 +32,7 @@ public class MapScannerTest {
     
     @Test
     public void getFilesReturnsCorrectAmountOfFiles() {
-        assertEquals(14, mapScanner.getFiles().length);
+        assertEquals(15, mapScanner.getFiles().length);
     }
     
     @Test

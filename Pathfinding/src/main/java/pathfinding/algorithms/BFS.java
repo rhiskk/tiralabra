@@ -23,7 +23,7 @@ public class BFS {
 
     //possible directions
     private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
-    {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
      * Returns the shortest path from the start point to the end point.
@@ -142,7 +142,8 @@ public class BFS {
     
     /**
      * Returns the number of the most time consuming operations performed.
-     * The most time consuming operation is adding and pollling from the queue.
+     * The most time consuming operation is adding to the queue 
+     * and pollling from it.
      *
      * @return the number of times nodes are added to the quque or polled from it.
      */
