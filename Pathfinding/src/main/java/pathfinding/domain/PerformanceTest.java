@@ -36,7 +36,7 @@ public class PerformanceTest {
      */
     public long test(int algo) {
         long sum = 0;
-        int runs = 21;
+        int runs = 20;
         switch (algo) {
             case 1:
                 BFS b = new BFS();
@@ -77,6 +77,6 @@ public class PerformanceTest {
             default:
                 break;
         }       
-        return Math.round((sum / (runs - 1)) / 1e6);
+        return Math.round((sum / (runs)) / 1e6);
     }
 }
