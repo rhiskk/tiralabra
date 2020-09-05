@@ -7,6 +7,7 @@ package pathfinding.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -31,8 +32,8 @@ public class MapScannerTest {
     }
     
     @Test
-    public void getFilesReturnsCorrectAmountOfFiles() {
-        assertEquals(16, mapScanner.getFiles().length);
+    public void getFilesDoesNotContainDS_Store() {
+        assertFalse(Arrays.asList(mapScanner.getFiles()).contains(new File("./maps/.DS_Store")));
     }
     
     @Test

@@ -36,7 +36,7 @@ public class PerformanceTest {
      */
     public long test(int algo) {
         long sum = 0;
-        int runs = 8;
+        int runs = 21;
         switch (algo) {
             case 1:
                 BFS b = new BFS();

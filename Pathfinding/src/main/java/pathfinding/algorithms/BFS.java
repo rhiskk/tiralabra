@@ -17,7 +17,6 @@ public class BFS {
     private int[] endPoint;
     private Queue queue;
     private Node endNode;
-    private char[][] path;
     //keeps count of the most time consuming operations performed
     private int operations;
 
@@ -49,24 +48,9 @@ public class BFS {
         }
 
         if (search(start[0], start[1])) {
-            constructPath();
             return pathLength;
         }
         return -1;
-    }
-
-    /**
-     * Constructs the found path and calculates its length.
-     *
-     */
-    private void constructPath() {
-        path = grid;
-        Node node = endNode;
-        while (node != null) {
-            path[node.getY()][node.getX()] = 'b';
-            pathLength += node.getG();
-            node = node.getParent();
-        }
     }
 
     /**
@@ -95,7 +79,7 @@ public class BFS {
                 continue;
             }
 
-            Node newNode = new Node(newY, newX, weight, 0);
+            Node newNode = new Node(newY, newX, weight + node.getG(), 0);
             newNode.setParent(node);
             queue.add(newNode);
             operations++;
@@ -124,6 +108,7 @@ public class BFS {
             operations++;
             if (node.getY() == endPoint[0] && node.getX() == endPoint[1]) {
                 endNode = node;
+                pathLength = node.getG();
                 return true;
             }
             neighbors(node);
@@ -137,6 +122,12 @@ public class BFS {
      * @return the found path as an ASCII-grid.
      */
     public char[][] getPath() {
+        char[][] path = grid;
+        Node node = endNode;
+        while (node != null) {
+            path[node.getY()][node.getX()] = 'b';
+            node = node.getParent();
+        }
         return path;
     }
     
