@@ -21,8 +21,8 @@ public class JPS {
     private int operations;
 
     //possible directions
-    private final int[][] direction = {{-1, -1}, {-1, 1}, {1, 1}, {1, -1},
-                                       {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
+                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
      * Heuristic function.
@@ -54,11 +54,11 @@ public class JPS {
         endPoint = end;
         heap = new MinHeap(gridLength * gridWidth);
         operations = 0;
-        
+
         if (map[start[0]][start[1]] == '@' || map[end[0]][end[1]] == '@') {
             return -1;
         }
-        
+
         for (int i = 0; i < gridLength; i++) {
             for (int j = 0; j < gridWidth; j++) {
                 gGrid[i][j] = Integer.MAX_VALUE;
@@ -81,22 +81,20 @@ public class JPS {
         gGrid[y][x] = 0;
         heap.add(new Node(y, x, 0, heuristic(y, x)));
         operations++;
-        
+
         while (!heap.isEmpty()) {
             Node n = heap.poll();
             operations++;
             int newY = n.getY();
             int newX = n.getX();
-            if (!visited[newY][newX]) {
 
-                visited[newY][newX] = true;
+            visited[newY][newX] = true;
 
-                if (newY == endPoint[0] && newX == endPoint[1]) {
-                    endNode = n;
-                    return true;
-                }
-                successors(n);
+            if (newY == endPoint[0] && newX == endPoint[1]) {
+                endNode = n;
+                return true;
             }
+            successors(n);
         }
         return false;
     }
@@ -121,14 +119,15 @@ public class JPS {
 
                 int jy = jumpPoint[0];
                 int jx = jumpPoint[1];
-                
+
                 if (visited[jy][jx]) {
                     continue;
                 }
+
                 //distance from start to the jump point
                 double newG = Math.sqrt(abs(y - jy) * abs(y - jy)
                         + abs(x - jx) * abs(x - jx)) + node.getG();
-                if (newG < gGrid[jy][jx]) {
+                if (newG <= gGrid[jy][jx]) {
                     gGrid[jy][jx] = newG;
                     Node newNode = new Node(jy, jx, newG, heuristic(jy, jx));
                     newNode.setParent(node);
@@ -157,9 +156,6 @@ public class JPS {
 
         int[] jumpPoint = new int[]{y, x};
 
-        int dy = y - py;
-        int dx = x - px;
-
         if (!valid(y, x)) {
             return null;
         }
@@ -167,6 +163,9 @@ public class JPS {
         if (y == endPoint[0] && x == endPoint[1]) {
             return jumpPoint;
         }
+
+        int dy = y - py;
+        int dx = x - px;
 
         //diagonal forced neighbors
         if (dy != 0 && dx != 0) {
@@ -248,7 +247,7 @@ public class JPS {
                     if (!valid(y - 1, x)) {
                         neighbors[i++] = new int[]{y - 1, x + dx};
                     }
-                //horizontal neighbors
+                    //horizontal neighbors
                 } else {
                     if (valid(y + dy, x)) {
                         neighbors[i++] = new int[]{y + dy, x};
@@ -266,7 +265,7 @@ public class JPS {
                 int newY = y + direction[i][0];
                 int newX = x + direction[i][1];
                 if (valid(newY, newX)) {
-                    
+
                     neighbors[i] = new int[]{newY, newX};
                 }
             }
@@ -278,8 +277,7 @@ public class JPS {
      * Returns the found path and jump points.
      *
      *
-     * @return ASCII-grid to which jump points are marked as 'p' and and the
-     * points between points are marked as 'j'.
+     * @return the found path as an ASCII-grid.
      */
     public char[][] getPath() {
         char[][] path = grid;
@@ -287,6 +285,7 @@ public class JPS {
         while (node != null) {
             int y = node.getY();
             int x = node.getX();
+            path[y][x] = 'j';
             if (node.getParent() != null) {
                 int py = node.getParent().getY();
                 int px = node.getParent().getX();
@@ -314,7 +313,6 @@ public class JPS {
                     }
                 }
             }
-            path[y][x] = 'p';
             node = node.getParent();
         }
         return path;
@@ -331,18 +329,18 @@ public class JPS {
         return !(y < 0 || x < 0 || y >= gridLength
                 || x >= gridWidth || grid[y][x] == '@');
     }
-    
+
     private int abs(int n) {
         return n > 0 ? n : -n;
     }
-    
+
     private int max(int a, int b) {
         return a > b ? a : b;
     }
-    
+
     /**
-     * Returns the number of the most time consuming operations performed.
-     * The most time consuming operation is adding to the heap and polling from it.
+     * Returns the number of the most time consuming operations performed. The
+     * most time consuming operation is adding to the heap and polling from it.
      *
      * @return the the number of nodes added to the heap and polled from it.
      */

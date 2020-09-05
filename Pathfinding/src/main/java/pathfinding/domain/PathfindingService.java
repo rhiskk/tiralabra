@@ -27,7 +27,6 @@ public class PathfindingService {
         bfs = new BFS();
         aStar = new AStar();
         jps = new JPS();
-        map = mapScanner.scan(new File("./maps/Berlin_0_512.map"));
         files = mapScanner.getFiles();
         start = new int[2];
         end = new int[2];

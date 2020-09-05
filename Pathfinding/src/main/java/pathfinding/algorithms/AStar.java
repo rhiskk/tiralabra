@@ -23,8 +23,8 @@ public class AStar {
     
 
     //possible directions
-    private final int[][] direction = {{-1, -1}, {-1, 1}, {1, 1}, {1, -1},
-                                       {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    private final int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, 
+                                       {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
     /**
      * Heuristic function.
@@ -85,7 +85,7 @@ public class AStar {
     private void neighbors(Node n) {
         for (int i = 0; i < 8; i++) {
             double weight = 1;
-            if (i < 4) {
+            if (i > 3) {
                 weight = Math.sqrt(2);
             }
             int y = n.getY();
@@ -99,6 +99,7 @@ public class AStar {
 
                 continue;
             }
+            
             if (gGrid[newY][newX] > gGrid[y][x] + weight) {
                 gGrid[newY][newX] = gGrid[y][x] + weight;
                 Node newNode = new Node(newY, newX, gGrid[newY][newX],
@@ -106,6 +107,9 @@ public class AStar {
                 newNode.setParent(n);
                 heap.add(newNode);
                 operations++;
+                if (newY == endPoint[0] && newX == endPoint[1]) {                  
+                    return;
+                }
             }
         }
     }

@@ -248,15 +248,16 @@ public class PathfindingUi extends Application {
             RadioButton selected = (RadioButton) group.getSelectedToggle();
             int j = (int) (event.getY() / mplier);
             int i = (int) (event.getX() / mplier);
+            double size = 3;
             if (selected.equals(setStart)) {
                 if (!invalid(j, i)) {    
                     mapDrawer.setFill(Color.WHITE);
                     mapDrawer.fillRect(Integer.valueOf(startX.getText()) * mplier,
-                            Integer.valueOf(startY.getText()) * mplier, 3, 3);
+                            Integer.valueOf(startY.getText()) * mplier, size, size);
                     startX.setText(String.valueOf(i));
                     startY.setText(String.valueOf(j));           
                     mapDrawer.setFill(Color.GREEN);
-                    mapDrawer.fillRect(i * mplier, j * mplier, 3, 3);
+                    mapDrawer.fillRect(i * mplier, j * mplier, size, size);
                     setStart.setSelected(false);
                     setEnd.setSelected(true);
                 }
@@ -264,11 +265,11 @@ public class PathfindingUi extends Application {
                 if (!invalid(j, i)) {
                     mapDrawer.setFill(Color.WHITE);
                     mapDrawer.fillRect(Integer.valueOf(endX.getText()) * mplier,
-                            Integer.valueOf(endY.getText()) * mplier, 3, 3);
-                    endX.setText(String.valueOf((int) (event.getX() / mplier)));
-                    endY.setText(String.valueOf((int) (event.getY() / mplier)));
+                            Integer.valueOf(endY.getText()) * mplier, size, size);
+                    endX.setText(String.valueOf(i));
+                    endY.setText(String.valueOf(j));
                     mapDrawer.setFill(Color.RED);
-                    mapDrawer.fillRect(i * mplier, j * mplier, 3, 3);
+                    mapDrawer.fillRect(i * mplier, j * mplier, size, size);
                     setEnd.setSelected(false);
                     setStart.setSelected(true);
                 }      
@@ -361,7 +362,7 @@ public class PathfindingUi extends Application {
     */
     private void drawMap() {
         mapDrawer.clearRect(0, 0, 512, 512);
-        double size = Math.max(1 * mplier, 1);
+        double size = mplier;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[0].length; j++) {
                 if (map[j][i] == '@') {
@@ -427,10 +428,6 @@ public class PathfindingUi extends Application {
                         break;
                     case 'j':
                         mapDrawer.setFill(Color.GREEN);
-                        mapDrawer.fillRect(i * mplier, j * mplier, size, size);
-                        break;
-                    case 'p':
-                        mapDrawer.setFill(Color.MAGENTA);
                         mapDrawer.fillRect(i * mplier, j * mplier, size, size);
                         break;
                     default:
