@@ -53,7 +53,7 @@ public class PathfindingUi extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) {
         
         //alert
         alert = new Alert(AlertType.ERROR);
@@ -437,7 +437,7 @@ public class PathfindingUi extends Application {
         }
     }
     
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         launch(args);
     }
 }
