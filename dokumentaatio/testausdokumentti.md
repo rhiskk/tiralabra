@@ -3,6 +3,11 @@
 ## JUnit-testaus
 Sovelluksen luokat, lukuunottamatta PathfindingUi-, PathfindingService- ja PerformanceTest-luokkia on testattu JUnit-testeillä.
 
+### Testikattavuus
+
+<img src="https://github.com/HiskiR/tiralabra/blob/master/dokumentaatio/testikattavuus.png" width="800">
+
+
 ### Algoritmit
 Algoritmien testeissä on testattu, että algoritmit:
 * palauttavat -1, kun polkua ei löydy, tai annetut koordinaatit eivät ole käyttökelpoisia
