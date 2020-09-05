@@ -5,7 +5,7 @@ Sovelluksen luokat, lukuunottamatta PathfindingUi-, PathfindingService- ja Perfo
 
 ### Algoritmit
 Algoritmien testeissä on testattu, että algoritmit:
-* palauttavat -1, kun polkua ei löydy, tai annetut koordinaatit eivät ole käyttökelpoisia.
+* palauttavat -1, kun polkua ei löydy, tai annetut koordinaatit eivät ole käyttökelpoisia
 * palauttavat oikean pituuden, kun reitti löytyy
 * palauttavat oikean määrä tehtyjä operaatioita
 * palauttavat oikean reitin
@@ -37,6 +37,8 @@ Käyttöliittymää testattaessa on pyritty testaamaan, että:
 * kartat piityvät oikein
 * koordinaatit asettuvat kartalle oikein
 * reitti piirtyy oikein
+
+Käyttöliittymässä A* algoritmin reitti saattaa tarkemmissa kartoissa näyttää lyhyemältä sillä se näyttää menevän suoraan viistossa, vaikka se todellisuudessa kulkee monia askelia sekä suoraan, että viistossa.
 
 ## Suorituskykytestaus
 
