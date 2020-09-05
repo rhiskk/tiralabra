@@ -1,9 +1,43 @@
 # Toteutusdokumentti
 
-### Leveyshaku
+## Yleisrakenne
+Ohjelma on jaettu viiteem eri pakkaukseen: algoritmipakkaukseen, tietorakennepakkaukseen, IO-pakkaukseen, käyttöliittymäpakkaukseen ja domainpakkaukseen.
 
-Algoritmi saa parametreina alku- ja loppupisteen koordinaatit, sekä kartan ASCII-ruudukkona. Haku käy kartan pisteet läpi kerroksittain, siinä järjestyksessä kun ne tulevat vastaan. Tätä varten ohjelmaan on toteutettu jono. Algoritmi käyttää kahta jonoa, joista toiseen laitetaan x- ja toiseen y-koordinaatit. Algoritmi pitää kirjaa kunkin kerroksen solmujen määrästä. Kun kerroksen solmut on käsitelty kasvatetaan reitin pituutta yhdellä. Algoritmin suoritus loppuu, kun kaikki solmut on käsitelty tai kun loppupiste on löydetty.
+Algoritmipakkaus sisältää toteutetut algoritmit (BFS, A*, JPS). Tietorakennepakkaus sisältää solmu luokan, sekä toteutetut tietorakenteet (jono, minimikeko). IO-pakkaus sisältää MapScanner-luokan, joka vastaa tiedostonluvusta. Käyttöliittymäpakkauksessa on käyttöliittymä-luokan ja pääluokan. Domainpakkaus sisältää sovelluslogiikan ja tehokkuusvertailuluokan.
 
-### A*
+## Saavutetut aika- ja tilavaativuudet
 
-Algoritmi alustaa etäisyystaulukon, jonka arvot asetetaan suuriksi. Haku lähtee käyntiin parametrina saadusta alku koordinaateista. Jokaisen käsiteltävän pisteen kohdalla luodaan uusi solmu-olio, jolle annetaan parametreina sen x- ja y-koordinaatit, sen etäisyys lähtöpisteestä ja sen diagonaalinen etäisyys loppupisteeseen. Solmu laitetaan algoritmia varten luotuun minimikeko tietorakenteeseen ja se merkitään käsitellyksi. Tämän jälkeen käydään pisteen naapurit läpi. Jos naapuriin pääsee pisteen kautta lyhyempää reittiä, päivitetään sen etäisyysarvoa, luodaan uusi naapuria vastaava solmu-olio ja lisätään se kekoon. Keosta otetaan solmu jolla on pienin lähtö- ja loppuetäisyyden summa käsittelyyn, kunnes keko on tyhjä tai loppupiste on löydetty.
+### Tietorakenteet
+
+#### Jono
+Sekä lisäyksen, että poistamisen aikavaativuus on O(1).
+Tilavaativuus on O(n)
+
+#### Minimikeko
+Sekä lisäyksen, että poistamisen aikavaativuus on O(log n).
+Tilavaativuus on O(n)
+
+### Algoritmit
+
+#### Leveyshaku
+Aikavaativuus on O(n + m).
+Tilavaativuus on O(n).
+
+#### A*
+Aikavaativuus on O(n + m log n).
+Tilavaativuus on O(n).
+
+#### JPS
+Aikavaativuus on O(log n).
+Tilavaativuus on O(n).
+
+## Vertailu
+Vaikka leveyshaun aikavaativuus on pienempi kuin A* algoritmin, suoriutuu A* suorituskykytesteissä kaikissa tapauksissa hieman leveyshakua nopeammin. 
+JPS-algortimin nopeus alkaa näkyä selvästi suuremmilla syötteillä, jolloin se on suorituskykytesteissä kaikissa tapauksissa noin kymmenen kertaa A*-algoritmia nopeampi.
+
+## Lähteet
+[JPS](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-aaai11.pdf)
+
+[A*](https://en.wikipedia.org/wiki/A*_search_algorithm)
+
+[BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
